@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Ajouter un Contrat{% endblock %}
+
+{% block header %}
+  <h1>Ajouter un nouveau contrat</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {{ form.hidden_tag() }}
+    
+    <div class="form-group">
+      {{ form.Nr_contrat.label }}
+      {{ form.Nr_contrat(class="form-control") }}
+      {% for error in form.Nr_contrat.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.nom_abonne.label }}
+      {{ form.nom_abonne(class="form-control") }}
+      {% for error in form.nom_abonne.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.Adresse.label }}
+      {{ form.Adresse(class="form-control") }}
+      {% for error in form.Adresse.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.Secteur.label }}
+      {{ form.Secteur(class="form-control") }}
+      {% for error in form.Secteur.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.Puissance_souscrite.label }}
+      {{ form.Puissance_souscrite(class="form-control") }}
+      {% for error in form.Puissance_souscrite.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.Puissance_installee.label }}
+      {{ form.Puissance_installee(class="form-control") }}
+      {% for error in form.Puissance_installee.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      {{ form.type_installation.label }}
+      {{ form.type_installation(class="form-control") }}
+      {% for error in form.type_installation.errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <a href="{{ url_for('contrats.liste_contrats') }}" class="btn btn-secondary">Annuler</a>
+  </form>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des Contrats{% endblock %}
+
+{% block header %}
+  <h1>Liste des contrats</h1>
+  <a href="{{ url_for('contrats.ajouter_contrat') }}" class="btn btn-success">+ Ajouter</a>
+{% endblock %}
+
+{% block content %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>N° Contrat</th>
+        <th>Nom Abonné</th>
+        <th>Adresse</th>
+        <th>Date</th>
+        <th>Puissance (kW)</th>
+        <th>Type Installation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contrat in contrats %}
+        <tr>
+          <td>{{ contrat.Nr_contrat }}</td>
+          <td>{{ contrat.nom_abonne }}</td>
+          <td>{{ contrat.Adresse }}</td>
+          <td>{{ contrat.date_contrat }}</td>
+          <td>{{ contrat.Puissance_souscrite }}</td>
+          <td>
+            {% if contrat.type_installation == 1 %}
+              Type 1
+            {% elif contrat.type_installation == 2 %}
+              Type 2
+            {% else %}
+              Type 12
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
