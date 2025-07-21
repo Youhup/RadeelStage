@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Details du Contrats{% endblock %}
+
+{% block header %}
+  <h1>detail du contrat</h1>
+  {% endblock %}
+{% block content %}
+    <div class="contract-details">
+        <h2>Contrat N°: {{ contrat.Nr_contrat }}</h2>
+        <p><strong>Nom Abonné:</strong> {{ contrat.nom_abonne }}</p>
+        <p><strong>Adresse:</strong> {{ contrat.Adresse }}</p>
+        <p><strong>Date du Contrat:</strong> {{ contrat.date_contrat }}</p>
+        <p><strong>Puissance Souscrite (kW):</strong> {{ contrat.Puissance_souscrite }}</p>
+        <p><strong>Type Installation:</strong>
+        {% if contrat.type_installation == 1 %}
+            Type 1
+        {% elif contrat.type_installation == 2 %}
+            Type 2
+        {% else %}
+            Type 12
+        {% endif %}
+        </p>
+    </div>
+{% endblock %}

@@ -23,7 +23,7 @@ CREATE TABLE releves_index (
     IEA_HP INTEGER NOT NULL CHECK(IEA_HP >= 0),
     IEA_HN INTEGER NOT NULL CHECK(IEA_HN >= 0),
     I_energie_reactif INTEGER CHECK(I_energie_reactif >= 0),
-    Puissance_demande INTEGER CHECK(Puissance_demand >= 0),
+    Puissance_demande INTEGER CHECK(Puissance_demande >= 0),
     FOREIGN KEY (Nr_contrat) REFERENCES contrats(Nr_contrat) ON DELETE CASCADE,
     UNIQUE(Nr_contrat, date_releve)
 );

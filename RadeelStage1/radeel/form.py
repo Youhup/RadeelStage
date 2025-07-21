@@ -6,6 +6,7 @@ class AjouterContratForm(FlaskForm):
     Nr_contrat = IntegerField('Numéro de contrat', validators=[DataRequired()])
     nom_abonne = StringField('Nom abonné', validators=[DataRequired()])
     Adresse = StringField('Adresse', validators=[DataRequired()])
+    date = DateField('Date du contrat', format='%Y-%m-%d', validators=[DataRequired()])
     Secteur = IntegerField('Secteur', validators=[DataRequired(), NumberRange(min=1)])
     Puissance_souscrite = IntegerField('Puissance souscrite (kW)', validators=[DataRequired(), NumberRange(min=1)])
     Puissance_installee = IntegerField('Puissance installée (kW)', validators=[DataRequired(), NumberRange(min=1)])
