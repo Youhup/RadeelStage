@@ -1,72 +1,28 @@
-{% extends "base.html" %}
-
-{% block title %}Ajouter un Contrat{% endblock %}
+{% extends 'base.html' %}
 
 {% block header %}
-  <h1>Ajouter un nouveau contrat</h1>
+  <h1>{% block title %}Nouvelle contrat{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    {{ form.hidden_tag() }}
-    
-    <div class="form-group">
-      {{ form.Nr_contrat.label }}
-      {{ form.Nr_contrat(class="form-control") }}
-      {% for error in form.Nr_contrat.errors %}
-        <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
+    <label for="Nr_contrat">Nr_contrat</label>
+    <input name="Nr_contrat" id="Nr_contrat" value="{{ request.form['Nr_contrat'] }}" required>
+    <label for="nom_abonne">Nom Abonné</label>
+    <input name="nom_abonne" id="nom_abonne" value="{{ request.form['nom_abonne'] }}" required>
+    <label for="Adresse">Adresse</label>
+    <input name="Adresse" id="Adresse" value="{{ request.form['Adresse'] }}" required>
+    <label for="date_contrat">Date Contrat</label>
+    <input type="date" name="date_contrat" id="date_contrat" value="{{ request.form['date_contrat'] }}" required>
+    <label for="Secteur">Secteur</label>
+    <input name="Secteur" id="Secteur" type = "number" value="{{ request.form['Secteur'] }}" required>
+    <label for="Puissance_souscrite">Puissance Souscrite (kW)</label>
+    <input name="Puissance_souscrite" id ="Puissance_souscrite" type = "number" value="{{ request.form['Puissance_souscrite'] }}" required>
+    <label for="Puissance_installee">Puissance Installée (kW)</label>
+    <input name="Puissance_installee" id="Puissance_installee" type = "number" value="{{ request.form['Puissance_installee'] }}" required>
+    <label for="type_installation">Type Installation</label>
+    <input name="type_installation" id="type_installation" type = "number" value="{{ request.form['type_installation'] }}" required>
 
-    <div class="form-group">
-      {{ form.nom_abonne.label }}
-      {{ form.nom_abonne(class="form-control") }}
-      {% for error in form.nom_abonne.errors %}
-        <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      {{ form.Adresse.label }}
-      {{ form.Adresse(class="form-control") }}
-      {% for error in form.Adresse.errors %}
-        <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      {{ form.Secteur.label }}
-      {{ form.Secteur(class="form-control") }}
-      {% for error in form.Secteur.errors %}
-        <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      {{ form.Puissance_souscrite.label }}
-      {{ form.Puissance_souscrite(class="form-control") }}
-      {% for error in form.Puissance_souscrite.errors %}
-        <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      {{ form.Puissance_installee.label }}
-      {{ form.Puissance_installee(class="form-control") }}
-      {% for error in form.Puissance_installee.errors %}
-        <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <div class="form-group">
-      {{ form.type_installation.label }}
-      {{ form.type_installation(class="form-control") }}
-      {% for error in form.type_installation.errors %}
-        <span class="error">{{ error }}</span>
-      {% endfor %}
-    </div>
-
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
-    <a href="{{ url_for('contrats.liste_contrats') }}" class="btn btn-secondary">Annuler</a>
+    <input type="submit" value="Save">
   </form>
 {% endblock %}

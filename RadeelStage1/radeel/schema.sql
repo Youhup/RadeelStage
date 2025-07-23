@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
 
 CREATE TABLE contrats (
-    Nr_contrat INTEGER PRIMARY KEY,
+    Nr_contrat INTEGER PRIMARY KEY ,
     nom_abonne TEXT NOT NULL,
     Adresse TEXT NOT NULL,
     date_contrat DATE NOT NULL DEFAULT CURRENT_DATE,
@@ -21,7 +21,7 @@ CREATE TABLE releves_index (
     date_releve DATE NOT NULL DEFAULT CURRENT_DATE,
     IEA_HC INTEGER NOT NULL CHECK(IEA_HC >= 0),
     IEA_HP INTEGER NOT NULL CHECK(IEA_HP >= 0),
-    IEA_HN INTEGER NOT NULL CHECK(IEA_HN >= 0),
+    IEA_HN INTEGER Not Null CHECK(IEA_HN >= 0),
     I_energie_reactif INTEGER CHECK(I_energie_reactif >= 0),
     Puissance_demande INTEGER CHECK(Puissance_demande >= 0),
     FOREIGN KEY (Nr_contrat) REFERENCES contrats(Nr_contrat) ON DELETE CASCADE,

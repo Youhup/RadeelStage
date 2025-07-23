@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des Releves{% endblock %}
+
+{% block header %}
+  <h1>Liste des releves</h1>
+  <a href="{{ url_for('releve.ajouter') }}" class="btn btn-success">+ Ajouter</a>
+{% endblock %}
+
+{% block content %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>N° Contrat</th>
+        <th>Date Releve</th>
+        <th>IEA_HC</th>
+        <th>IEA_HP</th>
+        <th>IEA_HN</th>
+        <th>I_energie_reactif</th>
+        <th>Puissance_demande</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for releve in releves %}
+        <tr>
+          <td>{{ releve.Nr_contrat }}</td>
+            <td>{{ releve.date_releve }}</td>
+            <td>{{ releve.IEA_HC }}</td>
+            <td>{{ releve.IEA_HP }}</td>
+            <td>{{ releve.IEA_HN }}</td>
+            <td>{{ releve.I_energie_reactif }}</td>
+            <td>{{ releve.Puissance_demande }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

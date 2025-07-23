@@ -1,91 +1,38 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Modifier Contrat {{ contrat.Nr_contrat }}{% endblock %}
+{% block header %}
+  <h1>{% block title %}Edit "{{ contrat['Nr_contrat'] }}"{% endblock %}</h1>
+{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="mb-4">Modifier Contrat #{{ contrat.Nr_contrat }}</h2>
+  <form method="post">
+    <label for="nom_abonne">nom_abonne</label>
+    <input name="nom_abonne" id="nom_abonne"
+      value="{{ request.form['nom_abonne'] or contrat['nom_abonne'] }}" required>
+    <label for="Adresse">Adresse</label>
+    <input name="Adresse" id="Adresse"
+      value="{{ request.form['Adresse'] or contrat['Adresse'] }}" required>
+    <label for="date_contrat">Date Contrat</label>
+    <input type="date" name="date_contrat" id="date_contrat"
+      value="{{ request.form['date_contrat'] or contrat['date_contrat'] }}" required>
+    <label for="Secteur">Secteur</label>
+    <input name="Secteur" id="Secteur" type="number"
+      value="{{ request.form['Secteur'] or contrat['Secteur'] }}" required>
+    <label for="Puissance_souscrite">Puissance Souscrite (kW)</label>
+    <input name="Puissance_souscrite" id="Puissance_souscrite" type="number"
+      value="{{ request.form['Puissance_souscrite'] or contrat['Puissance_souscrite'] }}" required>
+    <label for="Puissance_installee">Puissance Installée (kW)</label>
+    <input name="Puissance_installee" id="Puissance_installee" type="number"
+      value="{{ request.form['Puissance_installee'] or contrat['Puissance_installee'] }}" required>
+    <label for="type_installation">Type Installation</label>
+    <input name="type_installation" id="type_installation" type="number"
+      value="{{ request.form['type_installation'] or contrat['type_installation'] }}" required>
     
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        
-        <div class="row g-3">
-            <!-- Nom Abonné -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form.nom_abonne.label(class="form-label") }}
-                    {{ form.nom_abonne(class="form-control" + (' is-invalid' if form.nom_abonne.errors else '')) }}
-                    {% for error in form.nom_abonne.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-            <!-- Adresse -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form.Adresse.label(class="form-label") }}
-                    {{ form.Adresse(class="form-control" + (' is-invalid' if form.Adresse.errors else '')) }}
-                    {% for error in form.Adresse.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-            <!-- Secteur -->
-            <div class="col-md-4">
-                <div class="form-group">
-                    {{ form.Secteur.label(class="form-label") }}
-                    {{ form.Secteur(class="form-control" + (' is-invalid' if form.Secteur.errors else '')) }}
-                    {% for error in form.Secteur.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-            <!-- Puissances -->
-            <div class="col-md-4">
-                <div class="form-group">
-                    {{ form.Puissance_souscrite.label(class="form-label") }}
-                    {{ form.Puissance_souscrite(class="form-control" + (' is-invalid' if form.Puissance_souscrite.errors else ''), type="number", step="0.01") }}
-                    {% for error in form.Puissance_souscrite.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="form-group">
-                    {{ form.Puissance_installee.label(class="form-label") }}
-                    {{ form.Puissance_installee(class="form-control" + (' is-invalid' if form.Puissance_installee.errors else ''), type="number", step="0.01") }}
-                    {% for error in form.Puissance_installee.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-            <!-- Type Installation -->
-            <div class="col-12">
-                <div class="form-group">
-                    {{ form.type_installation.label(class="form-label") }}
-                    {{ form.type_installation(class="form-control" + (' is-invalid' if form.type_installation.errors else '')) }}
-                    {% for error in form.type_installation.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-            <!-- Boutons -->
-            <div class="col-12 mt-4">
-                <button type="submit" class="btn btn-primary px-4">
-                    <i class="fas fa-save me-2"></i>Enregistrer
-                </button>
-                <a href="{{ url_for('contrats.details_contrat', contrat_id=contrat.Nr_contrat) }}" 
-                   class="btn btn-outline-secondary ms-2">
-                    <i class="fas fa-times me-2"></i>Annuler
-                </a>
-            </div>
-        </div>
-    </form>
-</div>
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('contrat.contrat_supprimer', Nr_contrat=contrat['Nr_contrat']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
+
 {% endblock %}

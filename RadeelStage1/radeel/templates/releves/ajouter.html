@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Nouvel releve{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="Nr_contrat">Nr_contrat</label>
+    <input name="Nr_contrat" id="Nr_contrat" value="{{ request.form['Nr_contrat'] }}" required>
+    <label for="date_releve">Date Releve</label>
+    <input type="date" name="date_releve" id="date_releve"
+        value="{{ request.form['date_releve'] }}" required>
+    <label for="IEA_HC">IEA_HC</label>
+    <input name="IEA_HC" id="IEA_HC" type="number"
+        value="{{ request.form['IEA_HC'] }}" required> 
+    <label for="IEA_HP">IEA_HP</label>
+    <input name="IEA_HP" id="IEA_HP" type="number"
+        value="{{ request.form['IEA_HP'] }}" required>
+    <label for="IEA_HN">IEA_HN</label>
+    <input name="IEA_HN" id="IEA_HN" type="number"
+        value="{{ request.form['IEA_HN'] }}" required>
+    <label for="I_energie_reactif">I_energie_reactif</label>
+    <input name="I_energie_reactif" id="I_energie_reactif" type="number"
+        value="{{ request.form['I_energie_reactif'] }}" required>
+    <label for="Puissance_demande">Puissance_demande</label>
+    <input name="Puissance_demande" id="Puissance_demande" type="number"
+        value="{{ request.form['Puissance_demande'] }}" required>
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}
