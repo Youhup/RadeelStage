@@ -65,3 +65,33 @@ def ajouter():
                 return redirect(url_for('releve.index'))   
 
     return render_template('releves/ajouter.html')
+
+def get_releve(Id):
+    releve = get_db().execute(
+        'SELECT * FROM releves_index WHERE Id = ?',(Id,)).fetchone()
+    if releve is None:
+        abort(404, f"Releve Nr {Id} n'existe pas.")
+    return releve
+
+@br.route('/<int:id>/calculer')
+def calculer(id):
+    releve = get_releve(id)
+    IEA_HC = releve['IEA_HC']
+    IEA_HP = releve['IEA_HP']
+    IEA_HN = releve['IEA_HN']
+    I_energie_reactif = releve['I_energie_reactif']
+    Puissance_demande = releve['Puissance_demande']
+    
+    # Calcul des valeurs
+    total_energie_active = IEA_HC + IEA_HP + IEA_HN
+    cos_O = total_energie_active/(I_energie_reactif** 2 + total_energie_active** 2)**0.5
+    valeurs = {
+        'IEA_HC': IEA_HC,
+        'IEA_HP': IEA_HP,
+        'IEA_HN': IEA_HN,
+        'I_energie_reactif': I_energie_reactif,
+        'Puissance_demande': Puissance_demande,
+        'total_energie_active': total_energie_active,
+        'cos_O': cos_O
+    }
+    return render_template('releves/calculer.html', releve=releve, valeurs=valeurs)
