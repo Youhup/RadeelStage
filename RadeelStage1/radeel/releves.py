@@ -76,12 +76,16 @@ def get_releve(Id):
 @br.route('/<int:id>/calculer')
 def calculer(id):
     releve = get_releve(id)
-    IEA_HC = releve['IEA_HC']
-    IEA_HP = releve['IEA_HP']
-    IEA_HN = releve['IEA_HN']
-    I_energie_reactif = releve['I_energie_reactif']
-    Puissance_demande = releve['Puissance_demande']
     
+    Puissance_demande = releve['Puissance_demande']
+
+    old_releve = get_db().execute(
+        'SELECT * FROM releves_index WHERE Id < ? and Nr_contrat = ? ORDER BY date_releve DESC LIMIT 1', (id,releve['Nr_contrat'],)
+    ).fetchone()
+    IEA_HC = releve['IEA_HC'] - (old_releve['IEA_HC'] if old_releve else 0)
+    IEA_HP = releve['IEA_HP'] - (old_releve['IEA_HP'] if old_releve else 0)
+    IEA_HN = releve['IEA_HN'] - (old_releve['IEA_HN'] if old_releve else 0)
+    I_energie_reactif = releve['I_energie_reactif'] - (old_releve['I_energie_reactif'] if old_releve else 0)
     # Calcul des valeurs
     total_energie_active = IEA_HC + IEA_HP + IEA_HN
     cos_O = total_energie_active/(I_energie_reactif** 2 + total_energie_active** 2)**0.5

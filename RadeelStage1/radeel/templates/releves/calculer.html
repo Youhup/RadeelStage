@@ -2,6 +2,7 @@
 
 {% block header %}
   <h1>{% block title %}Facture releve "{{ releve['Id'] }}"{% endblock %}</h1>
+  <a href="{{ url_for('releve.index') }}" class="btn btn-success">- Retour</a>
 {% endblock %}
 
 {% block content %}
@@ -19,19 +20,19 @@
     </li>
     <li>
     <label for="'IEA_HC'">Index energie actif heurs creuses (kWh)</label>
-    <input type="text" id="IEA_HC" value="{{ releve['IEA_HC'] }}" readonly>
+    <input type="text" id="IEA_HC" value="{{ valeurs['IEA_HC'] }}" readonly>
     </li>
     <li>
     <label for="IEA_HP">Index energie actif heurs pleines (kWh)</label>
-    <input type="text" id="IEA_HP" value="{{ releve['IEA_HP'] }}" readonly>
+    <input type="text" id="IEA_HP" value="{{ valeurs['IEA_HP'] }}" readonly>
     </li>
     <li>
     <label for="IEA_HN">Index energie actif heurs normales (kWh)</label>
-    <input type="text" id="IEA_HN" value="{{ releve['IEA_HN'] }}" readonly>
+    <input type="text" id="IEA_HN" value="{{ valeurs['IEA_HN'] }}" readonly>
     </li>
     <li>
     <label for="I_energie_reactif">Index energie reactif (kvarh)</label>
-    <input type="text" id="I_energie_reactif" value="{{ releve['I_energie_reactif'] }}" readonly>
+    <input type="text" id="I_energie_reactif" value="{{ valeurs['I_energie_reactif'] }}" readonly>
     </li>
     <li>
     <label for="Puissance_demande">Puissance demande (kW)</label>
@@ -45,6 +46,6 @@
     <label for="cos_O">cos OE</label>
     <input type="text" id="cos_O" value="{{valeurs['cos_O'] | round(2)}}"  readonly>
     </li>
-    <li><a class="action" href="{{ url_for('releve.index')}}">Liste des releves</a></li>
+    
 
 {% endblock %}
