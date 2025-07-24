@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <title>Relevés</title>
+{% endblock %}
+
+{% block body %}
+    <h1 style="text-align: center;">Relevés</h1>
+    <form style="text-align: center;" method="post" action="/afficher_releves">
+        <label for="mois">Mois (format : YYYY-MM):</label>
+        <input type="month" id="mois" name="mois" required>
+        <button type="submit">Ajouter les relevés du mois</button>
+    </form>
+{% endblock %}

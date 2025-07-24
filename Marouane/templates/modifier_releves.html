@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Modifier relevés du mois {{ mois }}</title>
+</head>
+<body>
+    <h1>Modifier les relevés du mois {{ mois }}</h1>
+    <form method="post">
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>indice_ER</th>
+                    <th>indice_HC</th>
+                    <th>indice_HN</th>
+                    <th>indice_HP</th>
+                    <th>perte_ER</th>
+                    <th>perte_HC</th>
+                    <th>perte_HN</th>
+                    <th>perte_HP</th>
+                    <th>puissance_demandee</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in releves %}
+                <tr>
+                    <td>{{ r.nom }}</td>
+                    <td><input type="number" name="indice_ER_{{ r.releve_id }}" value="{{ r.indice_ER or '' }}"></td>
+                    <td><input type="number" name="indice_HC_{{ r.releve_id }}" value="{{ r.indice_HC or '' }}"></td>
+                    <td><input type="number" name="indice_HN_{{ r.releve_id }}" value="{{ r.indice_HN or '' }}"></td>
+                    <td><input type="number" name="indice_HP_{{ r.releve_id }}" value="{{ r.indice_HP or '' }}"></td>
+                    <td><input type="number" name="perte_ER_{{ r.releve_id }}" value="{{ r.perte_ER or '' }}"></td>
+                    <td><input type="number" name="perte_HC_{{ r.releve_id }}" value="{{ r.perte_HC or '' }}"></td>
+                    <td><input type="number" name="perte_HN_{{ r.releve_id }}" value="{{ r.perte_HN or '' }}"></td>
+                    <td><input type="number" name="perte_HP_{{ r.releve_id }}" value="{{ r.perte_HP or '' }}"></td>
+                    <td><input type="number" name="puissance_demandee_{{ r.releve_id }}" value="{{ r.puissance_demandee or '' }}"></td>
+                    <input type="hidden" name="releve_id" value="{{ r.releve_id }}">
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Enregistrer les modifications</button>
+    </form>
+    <a href="/">Retour</a>
+</body>
+</html>

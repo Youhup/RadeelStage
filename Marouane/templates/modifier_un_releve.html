@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Modifier relevé {{ releve.releve_id }}</title>
+</head>
+<body>
+    <h1>Modifier relevé du client {{ releve.nom }} mois {{ releve.date }} (ID relevé {{ releve.releve_id }})</h1>
+    <form style="text-align: center;" method="post">
+        <label>Indice ER : <input type="number" name="indice_ER" value="{{ releve.indice_ER or '' }}"></label><br>
+        <label>Indice HC : <input type="number" name="indice_HC" value="{{ releve.indice_HC or '' }}"></label><br>
+        <label>Indice HN : <input type="number" name="indice_HN" value="{{ releve.indice_HN or '' }}"></label><br>
+        <label>Indice HP : <input type="number" name="indice_HP" value="{{ releve.indice_HP or '' }}"></label><br>
+        <label>Perte ER : <input type="number" name="perte_ER" value="{{ releve.perte_ER or '' }}"></label><br>
+        <label>Perte HC : <input type="number" name="perte_HC" value="{{ releve.perte_HC or '' }}"></label><br>
+        <label>Perte HN : <input type="number" name="perte_HN" value="{{ releve.perte_HN or '' }}"></label><br>
+        <label>Perte HP : <input type="number" name="perte_HP" value="{{ releve.perte_HP or '' }}"></label><br>
+        <label>Puissance demandée : <input type="number" name="puissance_demandee" value="{{ releve.puissance_demandee or '' }}"></label><br>
+        <button type="submit">Enregistrer</button>
+    </form>
+    <a href="{{ url_for('afficher_releves_mois', mois=releve.date) }}">Retour à la liste</a>
+</body>
+</html>
