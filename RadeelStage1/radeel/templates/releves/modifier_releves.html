@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <title>Modifier relevés du mois {{ mois }}</title>
+{% endblock %}
+{% block content %}
+    <h1>Modifier les relevés du mois {{ mois }}</h1>
+    <form method="post">
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Client</th>
+                    <th>indice_ER</th>
+                    <th>indice_HC</th>
+                    <th>indice_HN</th>
+                    <th>indice_HP</th>
+                    <th>Red_ER</th>
+                    <th>Red_HC</th>
+                    <th>Red_HN</th>
+                    <th>Red_HP</th>
+                    <th>Ind_Max</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in releves %}
+                <tr>
+                    <td>{{ r.id }}</td>
+                    <td>{{ r.Nr_contrat }}</td>
+                    <td><input type="number" name="indice_ER_{{ r.id }}" value="{{ r.IER or '' }}"></td>
+                    <td><input type="number" name="indice_HC_{{ r.id }}" value="{{ r.IEA_HC or '' }}"></td>
+                    <td><input type="number" name="indice_HN_{{ r.id }}" value="{{ r.IEA_HN or '' }}"></td>
+                    <td><input type="number" name="indice_HP_{{ r.id }}" value="{{ r.IEA_HP or '' }}"></td>
+                    <td><input type="number" name="Red_ER_{{ r.id }}" value="{{ r.Red_ER or '' }}"></td>
+                    <td><input type="number" name="Red_HC_{{ r.id }}" value="{{ r.Red_EA_HC or '' }}"></td>
+                    <td><input type="number" name="Red_HN_{{ r.id }}" value="{{ r.Red_EA_HN or '' }}"></td>
+                    <td><input type="number" name="Red_HP_{{ r.id }}" value="{{ r.Red_EA_HP or '' }}"></td>
+                    <td><input type="number" name="Ind_Max_{{ r.id }}" value="{{ r.Ind_Max or '' }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Enregistrer les modifications</button>
+    </form>
+    <a href="/">Retour</a>
+{% endblock %}
+

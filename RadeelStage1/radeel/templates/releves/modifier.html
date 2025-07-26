@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>Modifier relevé {{ releve.id }} du client {{ releve.nom_abonne }} mois {{ mois }}</h1>
+    <a href="{{ url_for('releve.afficher', mois=mois) }}" class="btn btn-success">Retour </a>
+{% endblock %}
+{% block content %}
+    <form style="text-align: center;" method="post">
+        <label>Indice ER : <input type="number" name="indice_ER" value="{{ releve.IER or '' }}" required></label><br>
+        <label>Indice HC : <input type="number" name="indice_HC" value="{{ releve.IEA_HC or '' }}" required></label><br>
+        <label>Indice HN : <input type="number" name="indice_HN" value="{{ releve.IEA_HN or '' }}" required></label><br>
+        <label>Indice HP : <input type="number" name="indice_HP" value="{{ releve.IEA_HP or '' }}" required></label><br>
+        <label>Ind Max : <input type="number" name="Indic_max" value="{{ releve.IMax or '' }}" required></label><br>
+        <label>Red ER : <input type="number" name="Red_ER" value="{{ releve.Red_ER or '0' }}" ></label><br>
+        <label>Red HC : <input type="number" name="Red_HC" value="{{ releve.Red_EA_HC or '0' }}" ></label><br>
+        <label>Red HN : <input type="number" name="Red_HN" value="{{ releve.Red_EA_HN or '0' }}" ></label><br>
+        <label>Red HP : <input type="number" name="Red_HP" value="{{ releve.Red_EA_HP or '0' }}" ></label><br>
+        
+
+        <button type="submit">Enregistrer</button>
+    </form>
+{% endblock %}

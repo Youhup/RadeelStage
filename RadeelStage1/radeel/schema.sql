@@ -1,8 +1,7 @@
 DROP TABLE IF EXISTS contrats;
-DROP TABLE IF EXISTS releves_index;
+DROP TABLE IF EXISTS releves;
 DROP TABLE IF EXISTS factures;
 DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS post;
 
 CREATE TABLE contrats (
     Nr_contrat INTEGER PRIMARY KEY ,
@@ -12,45 +11,41 @@ CREATE TABLE contrats (
     Secteur INTEGER NOT NULL,
     Puissance_souscrite INTEGER NOT NULL CHECK(Puissance_souscrite > 0),
     Puissance_installee INTEGER NOT NULL CHECK(Puissance_installee > 0),
-    type_installation INTEGER NOT NULL CHECK(type_installation IN (1, 2, 12))
+    type_installation INTEGER NOT NULL CHECK(type_installation IN (1, 2, 12)),
+    statut TEXT NOT NULL DEFAULT 'actif' CHECK(statut IN ('actif', 'resile', 'suspendu'))
 );
 
-CREATE TABLE releves_index (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE releves (
+    id TEXT PRIMARY KEY NOT NULL,
     Nr_contrat INTEGER NOT NULL,
-    date_releve DATE NOT NULL DEFAULT CURRENT_DATE,
-    IEA_HC INTEGER NOT NULL CHECK(IEA_HC >= 0),
-    IEA_HP INTEGER NOT NULL CHECK(IEA_HP >= 0),
-    IEA_HN INTEGER Not Null CHECK(IEA_HN >= 0),
-    I_energie_reactif INTEGER CHECK(I_energie_reactif >= 0),
-    Puissance_demande INTEGER CHECK(Puissance_demande >= 0),
-    FOREIGN KEY (Nr_contrat) REFERENCES contrats(Nr_contrat) ON DELETE CASCADE,
-    UNIQUE(Nr_contrat, date_releve)
+    mois INTEGER CHECK (mois BETWEEN 1 AND 12),
+    annee INTEGER ,
+    IER INTEGER CHECK(IER >= 0),-- Indicateur d'energie reactif
+    IEA_HC INTEGER CHECK(IEA_HC >= 0),-- Indicateur d'energie active en heures creuses
+    IEA_HN INTEGER CHECK(IEA_HN >= 0),-- Indicateur d'energie active en heures normales
+    IEA_HP INTEGER CHECK(IEA_HP >= 0),-- Indicateur d'energie active en heures pleines
+    RED_ER INTEGER DEFAULT 0,--Redressement d'energie reactif
+    RED_EA_HC INTEGER DEFAULT 0,--Redressement d'energie active en heures creuses
+    RED_EA_HN INTEGER DEFAULT 0,--Redressement d'energie active en heures normales
+    RED_EA_HP INTEGER DEFAULT 0 ,--Redressement d'energie active en heures pleines
+    IMAX INTEGER CHECK(IMAX >= 0),--Indicateur de maximum KW
+    FOREIGN KEY (Nr_contrat) REFERENCES contrats(Nr_contrat) ON DELETE CASCADE
+    --UNIQUE(Nr_contrat, mois, annee) -- Assure qu'il n'y a qu'un relevé par mois et par contrat
 );
 
 CREATE TABLE factures (
-    id INTEGER PRIMARY KEY,
+    id TEXT PRIMARY KEY NOT NULL,
     Nr_contrat INTEGER NOT NULL,
-    releve_id INTEGER UNIQUE NOT NULL,
-    date_emission DATE NOT NULL DEFAULT CURRENT_DATE,
-    total_a_payer Real NOT NULL,
-    total_E_E Integer NOT NULL CHECK(total_E_E >= 0),
-    statut TEXT NOT NULL DEFAULT 'encours de traitement' CHECK(statut IN ('encours de traitement','controle', 'validee', 'payee', 'annulee')),
+    date_ DATE NOT NULL DEFAULT CURRENT_DATE,
+    total_a_payer Real ,
+    total_E_A Integer CHECK(total_E_A >= 0),
+    statut TEXT DEFAULT 'encours de traitement' CHECK(statut IN ('encours de traitement','controle', 'validee', 'payee', 'annulee')),
     FOREIGN KEY (Nr_contrat) REFERENCES contrats(Nr_contrat) ON DELETE CASCADE,
-    FOREIGN KEY (releve_id) REFERENCES releves_index(id) ON DELETE RESTRICT
+    FOREIGN KEY (id) REFERENCES releves(id) ON DELETE RESTRICT
 );
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL
-);
-
-CREATE TABLE post (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  author_id INTEGER NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  title TEXT NOT NULL,
-  body TEXT NOT NULL,
-  FOREIGN KEY (author_id) REFERENCES user (id)
 );

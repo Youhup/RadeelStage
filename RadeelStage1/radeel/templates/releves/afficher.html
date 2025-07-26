@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>Relevés du mois {{ mois }}</h1>
+    {% if not releves %}
+        <a href="{{ url_for('releve.creer',mois = mois) }}" class="btn btn-success">+ Creer</a>
+    {%else%}
+        <a href="/" class="btn btn-success">+ Modifier</a>
+    {% endif %}
+    <a href="/" class="btn btn-success">- Retour</a>
+{% endblock %}
+
+{% block content %}
+    <table cellpadding="5">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nr contrat</th>
+                <th>Nom abonne</th>
+                <th>Date Releve</th>
+                <th>Indice ER</th>
+                <th>Indice HC</th>
+                <th>Indice HN</th>
+                <th>Indice HP</th>
+                <th>Red ER</th>
+                <th>Red HC</th>
+                <th>Red HN</th>
+                <th>Red HP</th>
+                <th>Ind Max</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in releves %}
+            <tr>
+                <td>{{ r.Id}}</td>
+                <td>{{ r.Nr_contrat }}</td>
+                <td>{{ r.nom_abonne }}</td>
+                <td>{{ mois}}</td>
+                <td>{{ r.IER }}</td>
+                <td>{{ r.IEA_HC }}</td>
+                <td>{{ r.IEA_HN }}</td>
+                <td>{{ r.IEA_HP }}</td>
+                <td>{{ r.Red_ER }}</td>
+                <td>{{ r.Red_EA_HC }}</td>
+                <td>{{ r.Red_EA_HN }}</td>
+                <td>{{ r.Red_EA_HP }}</td>
+                <td>{{ r.imax }}</td>
+                <td>
+                    <a href="{{ url_for('releve.modifier', id=r.Id) }}" class="btn btn-primary">Modifier</a>
+                </td>
+                    
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

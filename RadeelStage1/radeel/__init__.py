@@ -42,11 +42,8 @@ def create_app(test_config=None):
     from . import contrats
     app.register_blueprint(contrats.bc)
 
-    from . import blog
-    app.register_blueprint(blog.bp)
-    app.add_url_rule('/', endpoint='index')
 
-    from . import releves
-    app.register_blueprint(releves.br)
+    from . import releve
+    app.register_blueprint(releve.br)
 
     return app
