@@ -7,11 +7,18 @@ from radeel.db import get_db
 
 import pdfkit
 
+from radeel.auth import login_required
+
 from datetime import datetime
 import locale
 locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
 
 br = Blueprint('releve', __name__)
+
+@br.before_request
+@login_required  
+def before_request():
+    pass 
 
 
 def generer_ID_facture( Secteur, Nr_contrat,mois,annee ): 
@@ -239,9 +246,9 @@ def calculer(id):
     tva_taxes_20 = round(taxe_entretien * 20 /100 ,2)
 
     #Calcul de Net a payer
-    Net_a_payer = (Montant_total_cons + Redevance_depass + Redevance_puiss + maj_cos_insuff +
+    Net_a_payer = round((Montant_total_cons + Redevance_depass + Redevance_puiss + maj_cos_insuff +
                     taxe_entretien + taxe_location +
-                      tva_cons_18 + tva_taxes_15 + tva_taxes_20)
+                      tva_cons_18 + tva_taxes_15 + tva_taxes_20),2)
     
     facture = {'ERD':ERD , 'EAD_HC' : EAD_HC, 'EAD_HN' : EAD_HN ,'EAD_HP': EAD_HP,
                'Perte_ER': Perte_ER,'Perte_HC':Perte_HC,'Perte_HN':Perte_HN,'Perte_HP':Perte_HP,

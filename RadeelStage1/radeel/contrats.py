@@ -5,8 +5,14 @@ from werkzeug.exceptions import abort
 
 from radeel.db import get_db
 
+from radeel.auth import login_required
+
 bc = Blueprint('contrat', __name__, url_prefix='/contrat')
 
+@bc.before_request
+@login_required  
+def before_request():
+    pass 
 
 @bc.route('/')
 def contrat_index():

@@ -7,6 +7,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from radeel.db import get_db
 
+
+PASSWORD = generate_password_hash("radeel2025")
+
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET', 'POST'))
@@ -21,12 +24,14 @@ def register():
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
+        elif not check_password_hash(PASSWORD,password):
+            error = 'Incorrect password.'
 
         if error is None:
             try:
                 db.execute(
                     "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    (username, PASSWORD),
                 )
                 db.commit()
             except db.IntegrityError:
@@ -51,13 +56,13 @@ def login():
 
         if user is None:
             error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
+        elif not check_password_hash( PASSWORD,password):
             error = 'Incorrect password.'
 
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            return redirect(url_for('releve.index'))
 
         flash(error)
 
@@ -77,7 +82,7 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('hello'))
 
 def login_required(view):
     @functools.wraps(view)
