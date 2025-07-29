@@ -4,8 +4,6 @@
     <h1>Relevés du mois {{ mois }}</h1>
     {% if not releves %}
         <a href="{{ url_for('releve.creer',mois = mois) }}" class="btn btn-success">+ Creer</a>
-    {%else%}
-        <a href="/" class="btn btn-success">+ Modifier</a>
     {% endif %}
     <a href="/" class="btn btn-success">- Retour</a>
 {% endblock %}

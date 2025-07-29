@@ -150,7 +150,7 @@ def calculer(id):
 
     if releve['mois'] > 1:
         old_releve = get_db().execute(
-            'SELECT * FROM releves WHERE mois < ? and annee = ? and Nr_contrat = ?',
+            'SELECT * FROM releves WHERE mois = ? and annee = ? and Nr_contrat = ?',
             (releve['mois'] - 1, releve['annee'], releve['Nr_contrat'],)).fetchone()
     else:
         old_releve = get_db().execute(
@@ -212,7 +212,7 @@ def calculer(id):
     Montant_total_cons = Montant_HC + Montant_HN + Montant_HP
 
     # Calcul du cosinus phi
-    cos_phi = Tot_EA/(CER** 2 + Tot_EA** 2)**0.5
+    cos_phi = round(Tot_EA/(CER** 2 + Tot_EA** 2)**0.5,2)
 
     # Calcul des taxes
     taxe_entretien = parametres['taxe_entretien'] 
@@ -233,7 +233,7 @@ def calculer(id):
     Redevance_puiss = round(contrat['puissance_souscrite'] * parametres['prix_Red_Puiss_annee'] /12 ,2)
 
     # Majoration
-    ecart_cos_phi = cos_phi - 0.8 
+    ecart_cos_phi = round(cos_phi - 0.8 ,2)
     total_cons_maj = Montant_total_cons + Redevance_depass + Redevance_puiss
     if ecart_cos_phi < 0 :
         maj_cos_insuff = -2 * ecart_cos_phi * total_cons_maj
@@ -253,7 +253,7 @@ def calculer(id):
     facture = {'ERD':ERD , 'EAD_HC' : EAD_HC, 'EAD_HN' : EAD_HN ,'EAD_HP': EAD_HP,
                'Perte_ER': Perte_ER,'Perte_HC':Perte_HC,'Perte_HN':Perte_HN,'Perte_HP':Perte_HP,
                'CER':CER,'CHC':CEA_HC,'CHN':CEA_HN,'CHP':CEA_HP,
-               'total_EA':Tot_EA,'cos_phi':round(cos_phi,2),'ecart_cos_phi':round(ecart_cos_phi,2),
+               'total_EA':Tot_EA,'cos_phi':cos_phi,'ecart_cos_phi':ecart_cos_phi,
                'puiss_appele':Puiss_appelee ,
                'montant_HC':Montant_HC,'montant_HN':Montant_HN,'montant_HP':Montant_HP,
                'Rend_puis':Redevance_puiss,'depass_puiss':Depass,'Rend_depass':Redevance_depass,
