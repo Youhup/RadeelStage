@@ -70,7 +70,7 @@
 <p style="position:absolute;top:286px;left:64px;white-space:nowrap" class="ft12">Code&#160;professionnel</p>
 <p style="position:absolute;top:285px;left:193px;white-space:nowrap" class="ft17">&#160;</p>
 <p style="position:absolute;top:262px;left:235px;white-space:nowrap" class="ft17">رقم&#160;المركز&#160;</p>
-<p style="position:absolute;top:285px;left:215px;white-space:nowrap" class="ft11">Matricule&#160;de&#160;poste</p>
+<p style="position:absolute;top:285px;left:215px;white-space:nowrap" class="ft11">Matricule&#160;du&#160;poste</p>
 <p style="position:absolute;top:282px;left:318px;white-space:nowrap" class="ft17">&#160;</p>
 <p style="position:absolute;top:262px;left:403px;white-space:nowrap" class="ft17">شهر&#160;</p>
 <p style="position:absolute;top:262px;left:358px;white-space:nowrap" class="ft17">الحسابات</p>
@@ -82,7 +82,7 @@
 <p style="position:absolute;top:317px;left:373px;white-space:nowrap" class="ft17">{{ releve['mois'] }}/{{ releve['annee'] }}&#160;</p>
 <p style="position:absolute;top:284px;left:533px;white-space:nowrap" class="ft12">تاريخ&#160;الفاتورة&#160;</p>
 <p style="position:absolute;top:305px;left:510px;white-space:nowrap" class="ft12">Date&#160;de&#160;la facture&#160;</p>
-<p style="position:absolute;top:297px;left:684px;white-space:nowrap" class="ft13">31&#160;MAI&#160;2025&#160;</p>
+<p style="position:absolute;top:297px;left:670px;white-space:nowrap" class="ft13">{{ facture.date }}&#160;</p>
 <p style="position:absolute;top:353px;left:98px;white-space:nowrap" class="ft19">عنوان&#160;العدادات&#160;</p>
 <p style="position:absolute;top:373px;left:69px;white-space:nowrap" class="ft11">Adresse&#160;des&#160;Compteurs</p>
 <p style="position:absolute;top:372px;left:199px;white-space:nowrap" class="ft19">&#160;</p>
@@ -98,7 +98,7 @@
 <p style="position:absolute;top:426px;left:299px;white-space:nowrap" class="ft11">Puissance&#160;taxée&#160;</p>
 <p style="position:absolute;top:443px;left:331px;white-space:nowrap" class="ft11">KVA&#160;</p>
 <p style="position:absolute;top:409px;left:446px;white-space:nowrap" class="ft11">تاريخ&#160;</p>
-<p style="position:absolute;top:426px;left:418px;white-space:nowrap" class="ft11">Date&#160;premiere&#160; &#160;</p>
+<p style="position:absolute;top:426px;left:418px;white-space:nowrap" class="ft11">Date&#160;dernière&#160; &#160;</p>
 <p style="position:absolute;top:443px;left:414px;white-space:nowrap" class="ft11">puissance&#160;taxée&#160;</p>
 <p style="position:absolute;top:461px;left:108px;white-space:nowrap" class="ft12">{{ contrat['Puissance_souscrite']}}&#160;</p>
 <p style="position:absolute;top:461px;left:223px;white-space:nowrap" class="ft12">{{ contrat['Puissance_installee']}}&#160;</p>
@@ -110,7 +110,7 @@
 <p style="position:absolute;top:432px;left:669px;white-space:nowrap" class="ft11">بيان&#160;جديد&#160;</p>
 <p style="position:absolute;top:450px;left:648px;white-space:nowrap" class="ft11">Nouveau&#160;index&#160;</p>
 <p style="position:absolute;top:432px;left:777px;white-space:nowrap" class="ft11">الفرق&#160;</p>
-<p style="position:absolute;top:450px;left:757px;white-space:nowrap" class="ft11">Différences&#160;</p>
+<p style="position:absolute;top:450px;left:757px;white-space:nowrap" class="ft11">Différence&#160;</p>
 <p style="position:absolute;top:467px;left:589px;white-space:nowrap" class="ft11">&#160;</p>
 <p style="position:absolute;top:467px;left:689px;white-space:nowrap" class="ft11">&#160;</p>
 <p style="position:absolute;top:467px;left:789px;white-space:nowrap" class="ft11">&#160;</p>
@@ -125,21 +125,20 @@
 <p style="position:absolute;top:532px;left:356px;white-space:nowrap" class="ft11">Coefficient</p>
 <p style="position:absolute;top:529px;left:416px;white-space:nowrap" class="ft12">&#160;</p>
 <p style="position:absolute;top:510px;left:449px;white-space:nowrap" class="ft12">القوة&#160;المعدودة&#160;</p>
-<p style="position:absolute;top:532px;left:461px;white-space:nowrap" class="ft19">Energie</p>
+<p style="position:absolute;top:532px;left:440px;white-space:nowrap" class="ft19">Energie decomptée</p>
 <p style="position:absolute;top:531px;left:507px;white-space:nowrap" class="ft12">&#160;</p>
 <p style="position:absolute;top:510px;left:571px;white-space:nowrap" class="ft12">الضياع&#160;</p>
 <p style="position:absolute;top:532px;left:569px;white-space:nowrap" class="ft12">Pertes&#160;</p>
 <p style="position:absolute;top:510px;left:668px;white-space:nowrap" class="ft12">تقويمات&#160;&#160;</p>
-<p style="position:absolute;top:532px;left:647px;white-space:nowrap" class="ft11">Redressements</p>
+<p style="position:absolute;top:532px;left:655px;white-space:nowrap" class="ft11">Redressements</p>
 <p style="position:absolute;top:529px;left:731px;white-space:nowrap" class="ft12">&#160;</p>
 <p style="position:absolute;top:510px;left:764px;white-space:nowrap" class="ft12">الاستهلاك&#160;</p>
 <p style="position:absolute;top:532px;left:748px;white-space:nowrap" class="ft11">Consommation</p>
 <p style="position:absolute;top:529px;left:831px;white-space:nowrap" class="ft12">&#160;</p>
-<p style="position:absolute;top:553px;left:79px;white-space:nowrap" class="ft18">القوة&#160;الكهربائي</p>
-<p style="position:absolute;top:553px;left:75px;white-space:nowrap" class="ft18">ة</p>
+<p style="position:absolute;top:553px;left:79px;white-space:nowrap" class="ft18">القوة&#160;الأرتكلية</p>
 <p style="position:absolute;top:555px;left:130px;white-space:nowrap" class="ft18">&#160;</p>
 <p style="position:absolute;top:569px;left:63px;white-space:nowrap" class="ft18">Energie&#160;réactive&#160;</p>
-<p style="position:absolute;top:582px;left:88px;white-space:nowrap" class="ft111">(KVWAH)</p>
+<p style="position:absolute;top:582px;left:88px;white-space:nowrap" class="ft111">(KVARH)</p>
 <p style="position:absolute;top:576px;left:117px;white-space:nowrap" class="ft12">&#160;</p>
 <p style="position:absolute;top:556px;left:159px;white-space:nowrap" class="ft12">{{ releve['IER'] }}&#160;</p>
 <p style="position:absolute;top:556px;left:257px;white-space:nowrap" class="ft12">{{ old_releve['IER'] }}&#160;</p>
@@ -193,7 +192,7 @@
 <p style="position:absolute;top:745px;left:353px;white-space:nowrap" class="ft18">KW</p>
 <p style="position:absolute;top:741px;left:370px;white-space:nowrap" class="ft12">&#160;</p>
 <p style="position:absolute;top:709px;left:448px;white-space:nowrap" class="ft12">القوة&#160;المطلوبة&#160;</p>
-<p style="position:absolute;top:730px;left:457px;white-space:nowrap" class="ft11">Puissance&#160; &#160;&#160;&#160; &#160;&#160; &#160; &#160;&#160;&#160;</p>
+<p style="position:absolute;top:730px;left:445px;white-space:nowrap" class="ft11">Puissance&#160;appelée &#160;&#160;&#160; &#160;&#160; &#160; &#160;&#160;&#160;</p>
 <p style="position:absolute;top:747px;left:452px;white-space:nowrap" class="ft11">du&#160;moi&#160;KVA</p>
 <p style="position:absolute;top:744px;left:516px;white-space:nowrap" class="ft12">&#160;</p>
 <p style="position:absolute;top:764px;left:62px;white-space:nowrap" class="ft12">{{ facture.cos_phi }}&#160;</p>
@@ -209,7 +208,7 @@
 <p style="position:absolute;top:767px;left:632px;white-space:nowrap" class="ft18">Nouveau&#160;cumul&#160;</p>
 <p style="position:absolute;top:782px;left:640px;white-space:nowrap" class="ft18">annuel&#160;KWH</p>
 <p style="position:absolute;top:778px;left:701px;white-space:nowrap" class="ft12">&#160;</p>
-<p style="position:absolute;top:754px;left:741px;white-space:nowrap" class="ft12">35&#160;</p>
+<p style="position:absolute;top:754px;left:741px;white-space:nowrap" class="ft12">&#160;</p>    <!--35-->
 <p style="position:absolute;top:817px;left:183px;white-space:nowrap" class="ft12">النص&#160;</p>
 <p style="position:absolute;top:838px;left:172px;white-space:nowrap" class="ft12">Detaille&#160;</p>
 <p style="position:absolute;top:817px;left:407px;white-space:nowrap" class="ft12">قاعدة</p>

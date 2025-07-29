@@ -7,7 +7,9 @@ from radeel.db import get_db
 
 import pdfkit
 
-
+from datetime import datetime
+import locale
+locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
 
 br = Blueprint('releve', __name__)
 
@@ -133,6 +135,8 @@ def calculer(id):
 
     releve = get_releve(id)
 
+    date_facture = datetime.today().strftime('%d %B %Y').upper()
+
     contrat = get_db().execute(
         'SELECT * FROM contrats WHERE Nr_contrat = ?',
         (releve['Nr_contrat'],)).fetchone()
@@ -248,7 +252,7 @@ def calculer(id):
                'Rend_puis':Redevance_puiss,'depass_puiss':Depass,'Rend_depass':Redevance_depass,
                'tva_18':tva_cons_18,'tva_15':tva_taxes_15,'tva_20':tva_taxes_20,
                'Cons_maj':total_cons_maj , 'debit_maj':maj_cos_insuff,
-               'Net_apayer':Net_a_payer}
+               'Net_apayer':Net_a_payer, 'date':date_facture}
     # Rendre le template HTML
     rendered = render_template('releves/calculer.html', releve=releve, old_releve = old_releve,
                            contrat = contrat,parametres = parametres,facture = facture)
@@ -257,8 +261,6 @@ def calculer(id):
         'enable-local-file-access': '',
         'encoding': 'UTF-8',
         'page-size': 'A4',
-        'load-error-handling': 'ignore',
-        'load-media-error-handling': 'ignore',
     }
     # Générer le PDF
     pdf = pdfkit.from_string(rendered, False, options=options)
