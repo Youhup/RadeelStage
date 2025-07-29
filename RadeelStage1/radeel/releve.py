@@ -258,7 +258,7 @@ def calculer(id):
                'montant_HC':Montant_HC,'montant_HN':Montant_HN,'montant_HP':Montant_HP,
                'Rend_puis':Redevance_puiss,'depass_puiss':Depass,'Rend_depass':Redevance_depass,
                'tva_18':tva_cons_18,'tva_15':tva_taxes_15,'tva_20':tva_taxes_20,
-               'Cons_maj':total_cons_maj , 'debit_maj':maj_cos_insuff,
+               'Cons_maj':round(total_cons_maj,2) , 'debit_maj':round(maj_cos_insuff,2),
                'Net_apayer':Net_a_payer, 'date':date_facture}
     # Rendre le template HTML
     rendered = render_template('releves/calculer.html', releve=releve, old_releve = old_releve,
