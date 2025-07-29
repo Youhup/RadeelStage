@@ -1,9 +1,11 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, make_response
 )
 from werkzeug.exceptions import abort
 
 from radeel.db import get_db
+
+import pdfkit
 
 
 
@@ -164,7 +166,7 @@ def calculer(id):
         return 0.035 * (ED + Red) if Red > 0 else 0.035 * ED
         
     
-    if contrat['type_instrallation'] == 1:
+    if contrat['type_installation'] == 1:
         Perte_ER = 0 # perte d'energie réactive
         Perte_HC = 0 # perte d'energie active HC
         Perte_HN = 0
@@ -210,12 +212,10 @@ def calculer(id):
     Puiss_appelee = round(releve['IMAX'] /cos_phi) 
 
     # Redevance de depassement et puissance
-
+    Depass = round(Puiss_appelee - contrat['puissance_souscrite'])
     date_contrat = contrat['date_contrat']
-    
     if Puiss_appelee > contrat['puissance_souscrite'] :
         #if date_contrat.year < 2023 or (date_contrat.year == 2023 and date_contrat.mounth < 6):
-        Depass = round(Puiss_appelee - contrat['puissance_souscrite'])
         Redevance_depass = round(Depass * parametres['prix_RDPS'],2)
     else:
         Redevance_depass = 0
@@ -242,16 +242,35 @@ def calculer(id):
     facture = {'ERD':ERD , 'EAD_HC' : EAD_HC, 'EAD_HN' : EAD_HN ,'EAD_HP': EAD_HP,
                'Perte_ER': Perte_ER,'Perte_HC':Perte_HC,'Perte_HN':Perte_HN,'Perte_HP':Perte_HP,
                'CER':CER,'CHC':CEA_HC,'CHN':CEA_HN,'CHP':CEA_HP,
-               'total_EA':Tot_EA,'cos_phi':cos_phi,'ecart_cos_phi':ecart_cos_phi,
+               'total_EA':Tot_EA,'cos_phi':round(cos_phi,2),'ecart_cos_phi':round(ecart_cos_phi,2),
                'puiss_appele':Puiss_appelee ,
                'montant_HC':Montant_HC,'montant_HN':Montant_HN,'montant_HP':Montant_HP,
                'Rend_puis':Redevance_puiss,'depass_puiss':Depass,'Rend_depass':Redevance_depass,
                'tva_18':tva_cons_18,'tva_15':tva_taxes_15,'tva_20':tva_taxes_20,
                'Cons_maj':total_cons_maj , 'debit_maj':maj_cos_insuff,
                'Net_apayer':Net_a_payer}
-    
-    return render_template('releves/calculer.html', releve=releve, old_releve = old_releve,
+    # Rendre le template HTML
+    rendered = render_template('releves/calculer.html', releve=releve, old_releve = old_releve,
                            contrat = contrat,parametres = parametres,facture = facture)
+    # Configuration pour PDFKit
+    options = {
+        'enable-local-file-access': '',
+        'encoding': 'UTF-8',
+        'page-size': 'A4',
+        'margin-top': '0mm',
+        'margin-right': '0mm',
+        'margin-bottom': '0mm',
+        'margin-left': '0mm'
+    }
+    # Générer le PDF
+    pdf = pdfkit.from_string(rendered, False, options=options)
+    
+    # Créer la réponse
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=facture.pdf'
+    
+    return response
 
 
 

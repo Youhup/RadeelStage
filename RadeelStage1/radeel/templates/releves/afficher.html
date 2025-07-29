@@ -48,6 +48,7 @@
                 <td>{{ r.imax }}</td>
                 <td>
                     <a href="{{ url_for('releve.modifier', id=r.Id) }}" class="btn btn-primary">Modifier</a>
+                    <a href="{{ url_for('releve.calculer', id=r.Id) }}" class="btn btn-primary">Calculer</a>
                 </td>
                     
             </tr>
