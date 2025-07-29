@@ -263,10 +263,8 @@ def calculer(id):
         'enable-local-file-access': '',
         'encoding': 'UTF-8',
         'page-size': 'A4',
-        'margin-top': '0mm',
-        'margin-right': '0mm',
-        'margin-bottom': '0mm',
-        'margin-left': '0mm'
+        'load-error-handling': 'ignore',
+        'load-media-error-handling': 'ignore',
     }
     # Générer le PDF
     pdf = pdfkit.from_string(rendered, False, options=options)
