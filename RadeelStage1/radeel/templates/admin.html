@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>Paramètres Techniques</h1>
+{% endblock %}
+
+{% block content %}
+    
+    <!-- Messages flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="messages">
+                {% for category, message in messages %}
+                    <p class="flash-{{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Formulaire complet -->
+    <form method="POST">
+        <div class="form-group">
+            <label for="nr_roues">Nombre de roues :</label>
+            <input type="number" id="nr_roues" name="nr_roues" 
+                   min="1" value="{{ config.Nr_roues }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="prix_hc">Prix HC (€/kWh) :</label>
+            <input type="number" step="0.0001" id="prix_hc" name="prix_hc" 
+                   min="0" value="{{ config.Prix_HC }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="prix_hn">Prix HN (€/kWh) :</label>
+            <input type="number" step="0.0001" id="prix_hn" name="prix_hn" 
+                   min="0" value="{{ config.Prix_HN }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="prix_hp">Prix HP (€/kWh) :</label>
+            <input type="number" step="0.0001" id="prix_hp" name="prix_hp" 
+                   min="0" value="{{ config.Prix_HP }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="taxe_entretien">Taxe d'entretien (€) :</label>
+            <input type="number" step="0.01" id="taxe_entretien" name="taxe_entretien" 
+                   min="0" value="{{ config.taxe_entretien }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="taxe_location">Taxe de location (€) :</label>
+            <input type="number" step="0.01" id="taxe_location" name="taxe_location" 
+                   min="0" value="{{ config.taxe_location }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="prix_rdps">Prix RDPS (€) :</label>
+            <input type="number" step="0.01" id="prix_rdps" name="prix_rdps" 
+                   min="0" value="{{ config.prix_RDPS }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="prix_red_puiss_annee">Réduction puissance annuelle (€) :</label>
+            <input type="number" step="0.01" id="prix_red_puiss_annee" name="prix_red_puiss_annee" 
+                   min="0" value="{{ config.prix_Red_Puiss_annee }}" required>
+        </div>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+    </form>
+{% endblock %}

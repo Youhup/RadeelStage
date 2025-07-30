@@ -1,12 +1,28 @@
 {% extends 'base.html' %}
-{% block header %}
-    <h1>Chercher Releves</h1>
-{% endblock %}
 
 {% block content %}
-    <form  method="post">
-        <label for="mois">DATE (format : Mois-Annee):</label>
-        <input type="month" id="mois" name="mois" required>
-        <button type="submit">Chercher</button>
-    </form>
+<div class="search-container">
+    <div class="search-card">
+        <div class="search-header">
+            <i class="fas fa-search"></i>
+            <h1>Rechercher des Relevés</h1>
+            <p>Sélectionnez une période pour afficher les données</p>
+        </div>
+        
+        <form method="post" class="search-form">
+            <div class="form-group">
+                <label for="mois">
+                    <i class="far fa-calendar-alt"></i> Période (Mois-Année)
+                </label>
+                <div class="date-input-container">
+                    <input type="month" id="mois" name="mois" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-search">
+                <i class="fas fa-search"></i> Rechercher
+            </button>
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -13,6 +13,8 @@ from datetime import datetime
 import locale
 locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
 
+from radeel.parametre import load_parametres
+
 br = Blueprint('releve', __name__)
 
 @br.before_request
@@ -136,11 +138,35 @@ def get_releve(Id):
 
 @br.route('/<id>/calculer')
 def calculer(id):
-    parametres = {'Nr_roues':5, 'Prix_HC': 0.62690, 'Prix_HN': 0.85600, 'Prix_HP': 1.19970,
-                  'taxe_entretien': 353.06, 'taxe_location':335.23,'prix_RDPS': 55.24,
-                  'prix_Red_Puiss_annee':434.42}
+    
+    parametres = load_parametres()
 
     releve = get_releve(id)
+
+    mois = f"{releve['annee']}-{releve['mois']}"
+
+    def flash_error(message):
+        flash("Index de " + message + " est manquant")
+
+    if releve['IER'] is None or releve['IER'] == '':
+        flash_error("energie reactive")
+        return redirect(url_for("releve.afficher", mois=mois))
+    if releve['IEA_HC'] is None or releve['IEA_HC'] == '':
+         flash_error("energie active heures creuses")
+         return redirect(url_for("releve.afficher", mois=mois))
+    if releve['IEA_HN'] is None or releve['IEA_HN'] == '':
+         flash_error("energie active heures normales")
+         return redirect(url_for("releve.afficher", mois=mois))
+    if releve['IEA_HP'] is None or releve['IEA_HP'] == '':
+         flash_error("energie active heures plaines")
+         return redirect(url_for("releve.afficher", mois=mois))
+    if releve['IMAX'] is None or releve['IMAX'] == '':
+         flash_error("maximum")
+         return redirect(url_for("releve.afficher", mois=mois))
+
+
+            
+
 
     date_facture = datetime.today().strftime('%d %B %Y').upper()
 

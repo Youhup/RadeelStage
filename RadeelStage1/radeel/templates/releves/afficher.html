@@ -20,12 +20,9 @@
                 <th>Indice HC</th>
                 <th>Indice HN</th>
                 <th>Indice HP</th>
-                <th>Red ER</th>
-                <th>Red HC</th>
-                <th>Red HN</th>
-                <th>Red HP</th>
                 <th>Ind Max</th>
-                <th>Action</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -39,14 +36,12 @@
                 <td>{{ r.IEA_HC }}</td>
                 <td>{{ r.IEA_HN }}</td>
                 <td>{{ r.IEA_HP }}</td>
-                <td>{{ r.Red_ER }}</td>
-                <td>{{ r.Red_EA_HC }}</td>
-                <td>{{ r.Red_EA_HN }}</td>
-                <td>{{ r.Red_EA_HP }}</td>
                 <td>{{ r.imax }}</td>
                 <td>
-                    <a href="{{ url_for('releve.modifier', id=r.Id) }}" class="btn btn-primary">Modifier</a>
-                    <a href="{{ url_for('releve.calculer', id=r.Id) }}" class="btn btn-primary">Calculer</a>
+                    <a href="{{ url_for('releve.modifier', id=r.Id) }}" class="btn btn-success">Modifier</a>
+                </td>
+                <td>
+                    <a href="{{ url_for('releve.calculer', id=r.Id) }}" class="btn btn-success">Facture</a>
                 </td>
                     
             </tr>

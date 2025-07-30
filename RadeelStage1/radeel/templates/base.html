@@ -12,17 +12,16 @@
         <div class="navbar-container">
             <h1 class="logo">Radeel</h1>
             <ul class="nav-links">
-                {% if g.user %}
+                {% if session.get('authenticated') %}
                     <li class="user-info">
-                        <span class="username"><i class="fas fa-user-circle"></i> {{ g.user['username'] }}</span>
                         <a href="{{ url_for('auth.logout') }}" class="logout-btn">
                             <i class="fas fa-sign-out-alt"></i> Déconnexion
                         </a>
                     </li>
                 {% else %}
-                    <li><a href="{{ url_for('auth.register') }}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Register</a></li>
                     <li><a href="{{ url_for('auth.login') }}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
                 {% endif %}
+                <li><a href="{{ url_for('parametres.admin') }}" class="nav-link params-btn"><i class="fas fa-cog"></i> Paramètres</a></li>
             </ul>
         </div>
     </nav>
@@ -49,5 +48,4 @@
             {% block content %}{% endblock %}
         </div>
     </main>
-</body>
 </html>

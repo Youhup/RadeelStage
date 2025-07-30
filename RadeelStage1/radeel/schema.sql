@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS contrats;
 DROP TABLE IF EXISTS releves;
 DROP TABLE IF EXISTS factures;
-DROP TABLE IF EXISTS user;
 
 CREATE TABLE contrats (
     Nr_contrat INTEGER PRIMARY KEY ,
@@ -42,10 +41,4 @@ CREATE TABLE factures (
     statut TEXT DEFAULT 'encours de traitement' CHECK(statut IN ('encours de traitement','controle', 'validee', 'payee', 'annulee')),
     FOREIGN KEY (Nr_contrat) REFERENCES contrats(Nr_contrat) ON DELETE CASCADE,
     FOREIGN KEY (id) REFERENCES releves(id) ON DELETE RESTRICT
-);
-
-CREATE TABLE user (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
 );

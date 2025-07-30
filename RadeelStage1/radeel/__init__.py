@@ -46,4 +46,7 @@ def create_app(test_config=None):
     from . import releve
     app.register_blueprint(releve.br)
 
+    from . import parametre
+    app.register_blueprint(parametre.bp)
+
     return app
