@@ -49,4 +49,7 @@ def create_app(test_config=None):
     from . import parametre
     app.register_blueprint(parametre.bp)
 
+    from . import facture
+    app.register_blueprint(facture.bf)
+
     return app

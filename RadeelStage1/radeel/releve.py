@@ -5,6 +5,11 @@ from werkzeug.exceptions import abort
 
 from radeel.db import get_db
 
+from io import BytesIO
+from xhtml2pdf import pisa
+
+import os
+
 import pdfkit
 
 from radeel.auth import login_required
@@ -135,6 +140,22 @@ def get_releve(Id):
     if releve is None:
         abort(404, f"Releve Nr {Id} n'existe pas.")
     return releve
+
+
+from urllib.parse import quote
+
+def format_file_url(path):
+    # 1. Obtenir le chemin absolu
+    abs_path = os.path.abspath(path)
+    
+    # 2. Convertir les backslashes en forward slashes
+    forward_slash_path = abs_path.replace('\\', '/')
+    
+    # 3. Encoder les caractères spéciaux et ajouter le préfixe
+    encoded_path = quote(forward_slash_path, safe='/:')
+    file_url = f"file:///{encoded_path}"
+    
+    return file_url
 
 @br.route('/<id>/calculer')
 def calculer(id):
@@ -286,9 +307,36 @@ def calculer(id):
                'tva_18':tva_cons_18,'tva_15':tva_taxes_15,'tva_20':tva_taxes_20,
                'Cons_maj':round(total_cons_maj,2) , 'debit_maj':round(maj_cos_insuff,2),
                'Net_apayer':Net_a_payer, 'date':date_facture}
-    # Rendre le template HTML
-    rendered = render_template('releves/calculer.html', releve=releve, old_releve = old_releve,
-                           contrat = contrat,parametres = parametres,facture = facture)
+    
+    # Enregistrer la facture
+    db = get_db()
+    try:
+       
+        db.execute(
+            'INSERT INTO factures (id,Nr_contrat, Net_apayer,cumul_EA_annuel) VALUES (?, ?, ?,?)',
+            (releve['id'],contrat['Nr_contrat'], facture['Net_apayer'],facture['total_EA'])
+        )
+                
+        db.commit()
+    except db.IntegrityError:
+        error = f"facture {releve['Id']} existe."
+        flash(error)
+    else:
+        flash('facture ajoute avec succes')
+        
+    #path vers l'image
+    chemin_relatif = "radeel/static/images/target001.jpg"
+    url_facture = format_file_url(chemin_relatif)
+
+
+    rendered = render_template('releves/calculer.html', 
+                               releve=releve, 
+                               old_releve=old_releve,
+                               contrat=contrat,
+                               parametres=parametres,
+                               facture=facture,
+                               url_facture = url_facture)
+    
     # Configuration pour PDFKit
     options = {
         'enable-local-file-access': '',
@@ -305,6 +353,9 @@ def calculer(id):
     
     return response
 
+       
+
+   
 
 
 

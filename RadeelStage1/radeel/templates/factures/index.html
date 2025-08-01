@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block header %}
+  <h1>Liste des factures</h1>
+{% endblock %}
+
+
+{% block content %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>N° Contrat</th>
+        <th>Date</th>
+        <th>Net a payer</th>
+        <th>Cumul annuel</th>
+        <th>statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for facture in factures %}
+        <tr>
+          <td>{{ facture.Id }}</td>
+          <td>{{ facture.Nr_contrat }}</td>
+          <td>{{ facture.date_ }}</td>
+          <td>{{ facture.Net_apayer }}</td>
+          <td>{{ facture.cumul_EA_Annuel }}</td>
+          <td>{{facture.statut}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

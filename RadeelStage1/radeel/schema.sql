@@ -36,8 +36,8 @@ CREATE TABLE factures (
     id TEXT PRIMARY KEY NOT NULL,
     Nr_contrat INTEGER NOT NULL,
     date_ DATE NOT NULL DEFAULT CURRENT_DATE,
-    total_a_payer Real ,
-    total_E_A Integer CHECK(total_E_A >= 0),
+    Net_apayer Real ,
+    cumul_EA_Annuel Integer CHECK(cumul_EA_Annuel >= 0),
     statut TEXT DEFAULT 'encours de traitement' CHECK(statut IN ('encours de traitement','controle', 'validee', 'payee', 'annulee')),
     FOREIGN KEY (Nr_contrat) REFERENCES contrats(Nr_contrat) ON DELETE CASCADE,
     FOREIGN KEY (id) REFERENCES releves(id) ON DELETE RESTRICT

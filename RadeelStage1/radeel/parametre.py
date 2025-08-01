@@ -1,9 +1,15 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 import json
 import os
+from radeel.auth import login_required
+
 
 bp = Blueprint('parametres', __name__, url_prefix='/parametres')
 
+@bp.before_request
+@login_required  
+def before_request():
+    pass 
 # Chemin du fichier JSON
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.json')
 
