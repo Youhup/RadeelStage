@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>relevés du mois {{ mois }}</h1>
+    {% if not releves %}
+        <a href="{{ url_for('releve.creer',mois = mois) }}" class="btn btn-success">+ Creer</a>
+    {% endif %}
+  <a href="{{ url_for('releve.index') }}" class="btn btn-success">Retour</a>
+{% endblock %}
+{% block content %}
+    <form method="post">
+      <button type="submit" class="btn btn-success">Enregistrer</button>
+        <table class="table-releves" >
+            <thead>
+                <tr>
+                    <th>Nr contrat</th>
+                    <th>Nom abonne</th>
+                    <th>Statut</th>
+                    <th>indice_ER</th>
+                    <th>indice_HC</th>
+                    <th>indice_HN</th>
+                    <th>indice_HP</th>
+                    <th>Ind_Max</th>
+                    <th>Red_ER</th>
+                    <th>Red_HC</th>
+                    <th>Red_HN</th>
+                    <th>Red_HP</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in releves %}
+                <tr>
+                    <input type="hidden" name="id" value="{{ r.id }}">
+                    <td>{{ r.Nr_contrat }}</td>
+                    <td>{{ r.nom_abonne}}</td>
+                    <td>{{ r.statut }}</td>
+                    <td><input type="number" min = 0 name="indice_ER_{{ r.id }}" value="{{ r.IER or '' }}"></td>
+                    <td><input type="number" min = 0 name="indice_HC_{{ r.id }}" value="{{ r.IEA_HC or '' }}"></td>
+                    <td><input type="number" min = 0 name="indice_HN_{{ r.id }}" value="{{ r.IEA_HN or '' }}"></td>
+                    <td><input type="number" min = 0 name="indice_HP_{{ r.id }}" value="{{ r.IEA_HP or '' }}"></td>
+                    <td><input type="number" min = 0 name="Ind_Max_{{ r.id }}" value="{{ r.IMax or '' }}"></td>
+                    <td><input type="number" name="Red_ER_{{ r.id }}" value="{{ r.Red_ER or '0' }}"></td>
+                    <td><input type="number" name="Red_HC_{{ r.id }}" value="{{ r.Red_EA_HC or '0' }}"></td>
+                    <td><input type="number" name="Red_HN_{{ r.id }}" value="{{ r.Red_EA_HN or '0' }}"></td>
+                    <td><input type="number" name="Red_HP_{{ r.id }}" value="{{ r.Red_EA_HP or '0' }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+{% endblock %}
+

@@ -3,6 +3,18 @@ import json
 import os
 from radeel.auth import login_required
 
+# Valeurs par default pour les parametres
+DEFAULT_CONFIG = {
+    "Nr_roues": 6,
+    "Prix_HC": 0.6269,
+    "Prix_HN": 0.856,
+    "Prix_HP": 1.1997,
+    "taxe_entretien": 353.06,
+    "taxe_location": 335.23,
+    "prix_RDPS": 55.24,
+    "prix_Red_Puiss_annee": 434.42
+}
+
 
 bp = Blueprint('parametres', __name__, url_prefix='/parametres')
 
@@ -49,3 +61,7 @@ def load_parametres():
     with open(CONFIG_PATH, 'r') as f:
         config = json.load(f)
     return config
+
+
+    
+    

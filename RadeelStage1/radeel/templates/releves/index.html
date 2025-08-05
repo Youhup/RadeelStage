@@ -1,4 +1,13 @@
 {% extends 'base.html' %}
+{% block header %}
+    <h1>Rechercher</h1>
+    <form action="{{ url_for('releve.rechercher') }}" method="get">
+    <input type="text" name="q" placeholder="Rechercher par nom, date ou numéro..." 
+           value="{{ request.args.get('q', '') }}">
+    <button type="submit" class="btn btn-success">Rechercher</button>
+</form>
+    <a href="{{ url_for('releve.index') }}" class="btn btn-success">Retour</a>
+{% endblock %}
 
 {% block content %}
 <div class="search-container">

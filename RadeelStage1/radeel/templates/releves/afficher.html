@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>Relevés du mois {{ mois }}</h1>
-    {% if not releves %}
-        <a href="{{ url_for('releve.creer',mois = mois) }}" class="btn btn-success">+ Creer</a>
-    {% endif %}
+    <h1>Resultats du recherche</h1>
     <a href="/" class="btn btn-success">- Retour</a>
 {% endblock %}
 
@@ -15,7 +12,9 @@
                 <th>ID</th>
                 <th>Nr contrat</th>
                 <th>Nom abonne</th>
-                <th>Date Releve</th>
+                <th>Statut</th>
+                <th>Mois</th>
+                <th>Annee</th>
                 <th>Indice ER</th>
                 <th>Indice HC</th>
                 <th>Indice HN</th>
@@ -31,7 +30,9 @@
                 <td>{{ r.Id}}</td>
                 <td>{{ r.Nr_contrat }}</td>
                 <td>{{ r.nom_abonne }}</td>
-                <td>{{ mois}}</td>
+                <td>{{r.statut}}</td>
+                <td>{{r.mois}}</td>
+                <td>{{r.annee}}</td>
                 <td>{{ r.IER }}</td>
                 <td>{{ r.IEA_HC }}</td>
                 <td>{{ r.IEA_HN }}</td>
