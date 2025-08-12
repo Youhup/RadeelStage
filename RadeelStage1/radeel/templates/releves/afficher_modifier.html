@@ -4,12 +4,17 @@
     <h1>relevés du mois {{ mois }}</h1>
     {% if not releves %}
         <a href="{{ url_for('releve.creer',mois = mois) }}" class="btn btn-success">+ Creer</a>
+    {% else %}
+        <a href="{{ url_for('releve.calculer', mois = mois) }}" class="btn btn-success">Génerer toutes les factures</a>
     {% endif %}
-  <a href="{{ url_for('releve.index') }}" class="btn btn-success">Retour</a>
+    <a href="{{ url_for('releve.index') }}" class="btn btn-success">Retour</a>
+    
 {% endblock %}
 {% block content %}
     <form method="post">
-      <button type="submit" class="btn btn-success">Enregistrer</button>
+      <div style="text-align: right; margin-bottom: 10px;">
+        <button type="submit" class="btn btn-success" style="font-family: inherit; font-size: 18px; padding: 12px 20px; font-weight: bold;">Enregistrer</button>
+      </div>
         <table class="table-releves" >
             <thead>
                 <tr>
@@ -47,6 +52,10 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <div style="text-align: center; margin-bottom: 10px;">
+            <button type="submit" class="btn btn-success" style="font-family: inherit; font-size: 18px; padding: 12px 20px; font-weight: bold;">Enregistrer</button>
+        </div>
     </form>
 {% endblock %}
 

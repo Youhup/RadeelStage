@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+    <br><br>
+    <h1 style="text-align: center;">Attention !! Factures manquantes</h1>
+    <br><br>
+    <h1 style="text-align: center;">Relevés non valide du mois {{ mois }} à verifier : </h1>
+    <br><br>
+    {% for c in non_valide %}
+        <h2 style="text-align: center;">{{ c }}</h2>
+    {% endfor %}
+</body>

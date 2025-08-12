@@ -27,11 +27,16 @@
     </nav>
     <hr>
     <nav class="navbar">
-        <div class="navbar-container">
-            <ul class="nav-links">
+        <div class="navbar-container" style="display: flex; align-items: center; width: 100%;">
+            <ul class="nav-links" style="display: flex; align-items: center; width: 100%; list-style: none; margin: 0; padding: 0;">
                 <li><a href="{{ url_for('releve.index') }}" class="nav-link"><i class="fas fa-file-alt"></i> Relevés</a></li>
                 <li><a href="{{ url_for('contrat.contrat_index') }}" class="nav-link"><i class="fas fa-plus"></i> Contrat</a></li>
                 <li><a href="{{ url_for('facture.index') }}" class="nav-link"><i class="fas fa-file-alt"></i> Factures</a></li>
+                <li style="margin-left: auto;"><form action="{{ url_for('releve.rechercher') }}" method="get">
+                    <input type="text" name="q" placeholder="Nom, date ou numéro..." 
+                    value="{{ request.args.get('q', '') }}" style="font-family: inherit;">
+                    <button type="submit" class="btn btn-success" style="font-family: inherit; font-weight: bold;">Rechercher</button>
+                </form></li>
             </ul>
         </div>
     </nav>
