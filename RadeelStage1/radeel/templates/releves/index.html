@@ -14,10 +14,31 @@
                 <label for="mois">
                     <i class="far fa-calendar-alt"></i> Période (Mois-Année)
                 </label>
-                <div class="date-input-container">
-                    <input type="month" id="mois" name="mois" required>
+                <div class="date-input-container" style="display: flex; gap: 50px;">
+                    <input type="month" id="mois" name="mois">
                 </div>
             </div>
+
+            <div style="display: flex; gap: 50px;">
+                <div class="form-group" style="flex: 1;">
+                    <label for="nom" style="display: block;">
+                        <i class="fas fa-user"></i> Nom
+                    </label>
+                    <input type="text" id="nom" name="nom" placeholder="Nom de l'abonné / id" style="width: 100%;">
+                </div>
+
+                <div class="form-group" style="flex: 1;">
+                    <label for="statut" style="display: block;">
+                        <i class="fas fa-check-circle"></i> Statut
+                    </label>
+                    <select id="statut" name="statut" style="width: 100%; height: 42px;">
+                        <option value="">-- Tous --</option>
+                        <option value="valide">Valide</option>
+                        <option value="non valide">Non valide</option>
+                    </select>
+                </div>
+            </div>
+
             
             <button type="submit" class="btn-search">
                 <i class="fas fa-search"></i> Rechercher

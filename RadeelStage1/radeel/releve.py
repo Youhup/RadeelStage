@@ -14,8 +14,7 @@ from radeel.auth import login_required
 
 from datetime import datetime
 import locale
-locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
-
+locale.setlocale(locale.LC_TIME, 'French_France')
 from radeel.parametre import load_parametres
 
 br = Blueprint('releve', __name__)
@@ -57,14 +56,20 @@ def test_valide(releve):
 def index():
     if request.method == "POST":
         mois = request.form.get("mois")
+        client = request.form.get("nom")
+        statut = request.form.get("statut")
         if mois:
-            return redirect(url_for('releve.afficher_modifier', mois=mois))
+            return redirect(url_for('releve.afficher_modifier', mois=mois, client=client, stat=statut))
     return render_template("releves/index.html")
 
 @br.route("/<mois>/afficher_modifier", methods=["GET", "POST"])
 def afficher_modifier(mois):
     db = get_db()
     date = get_date_from_mois(mois)
+
+    client = request.args.get('client')
+    stat = request.args.get('stat')
+
     if not date:
         return redirect(url_for('releve.index'))
     annee, mois_ = date
@@ -100,33 +105,84 @@ def afficher_modifier(mois):
 
         db.commit()
         flash("Modifications enregistrées avec succès", "success")
-        return redirect(url_for('releve.afficher_modifier', mois=mois))
     
-    releves = db.execute("""
+    query = """
         SELECT r.*, c.nom_abonne, c.secteur
         FROM releves r
         JOIN contrats c ON c.Nr_contrat = r.Nr_contrat
-        WHERE r.mois = ? and r.annee = ?
-        ORDER BY c.secteur, c.nom_abonne
-    """, (mois_, annee,)).fetchall()
-    
-    return render_template("releves/afficher_modifier.html", releves=releves, mois=mois)
+        WHERE r.mois = ? AND r.annee = ?
+    """
+    params = [mois_, annee]
 
-@br.route("/<mois>/afficher")
-def afficher(mois):
+    # Filtre Nom ou ID
+    if client:
+        if client.isdigit():
+            query += " AND c.Nr_contrat = ?"
+            params.append(int(client))
+        else:
+            query += " AND c.nom_abonne LIKE ?"
+            params.append(f"%{client}%")
+
+    # Filtre Statut
+    if stat:
+        query += " AND r.statut = ?"
+        params.append(stat)
+
+    # Tri
+    query += " ORDER BY c.secteur, c.nom_abonne"
+
+    # Exécution
+    releves = db.execute(query, params).fetchall()
     
+    if client or stat == 'valide':
+        return redirect(url_for('releve.afficher', mois=mois, client=client, stat=stat))
+    return render_template("releves/afficher_modifier.html", releves=releves, mois=mois, stat=stat)
+
+@br.route("/afficher")
+def afficher():
+
+    mois = request.args.get('mois', '')
+    db = get_db()
+    date = get_date_from_mois(mois)
+    client = request.args.get('client', '')
+    stat = request.args.get('stat', '')
+
+    query = """
+        SELECT r.*, c.nom_abonne, c.secteur
+        FROM releves r
+        JOIN contrats c ON c.Nr_contrat = r.Nr_contrat
+        WHERE r.mois = ? AND r.annee = ?
+    """
+    if not date:
+        return redirect(url_for('releve.index'))
+    annee, mois_ = date
+    params = [mois_, annee]
+
+    # Filtre Nom ou ID
+    if client:
+        if client.isdigit():
+            query += " AND c.Nr_contrat = ?"
+            params.append(int(client))
+        else:
+            query += " AND c.nom_abonne LIKE ?"
+            params.append(f"%{client}%")
+
+    # Filtre Statut
+    if stat:
+        query += " AND r.statut = ?"
+        params.append(stat)
+
+    # Tri
+    query += " ORDER BY c.secteur, c.nom_abonne"
+
+    # Exécution
+    releves = db.execute(query, params).fetchall()
+
     db = get_db()
     date = get_date_from_mois(mois)
     if not date:
         return redirect(url_for('releve.index'))
     annee ,mois_= date
-
-    releves = db.execute("""
-        SELECT r.*, c.nom_abonne
-        FROM releves r
-        JOIN contrats c ON c.Nr_contrat = r.Nr_contrat
-        WHERE r.mois = ? and r.annee = ?
-    """, (mois_,annee,)).fetchall()
     
     return render_template("releves/afficher.html", releves=releves, mois=mois)
 
@@ -168,6 +224,7 @@ def modifier(id):
         flash("Relevé non trouvé.", "error")
         return redirect(url_for('releve.index'))
     mois = f"{releve['annee']}-{releve['mois']}"
+    retour = request.args.get("retour", url_for("releve.index"))
     
     if request.method == "POST":
         # Récupérer les valeurs du formulaire
@@ -181,18 +238,23 @@ def modifier(id):
         Red_HP = request.form.get("Red_HP") or "0"
         Indic_max = request.form.get("Indic_max")
 
+        if indice_ER == '' or indice_HC == '' or indice_HN == '' or indice_HP == '' or Indic_max == '':
+            statut = 'non valide'
+        else:
+            statut = 'valide'
+
         db.execute("""
             UPDATE releves SET 
                 IER = ?, IEA_HC = ?, IEA_HN = ?, IEA_HP = ?,
                 RED_ER = ?, RED_EA_HC = ?, RED_EA_HN = ?, RED_EA_HP = ?,
-                IMAX = ?
+                IMAX = ?, statut = ?
             WHERE Id = ?
         """, (
             indice_ER, indice_HC, indice_HN, indice_HP,
-            Red_ER, Red_HC, Red_HN, Red_HP, Indic_max, id
+            Red_ER, Red_HC, Red_HN, Red_HP, Indic_max, statut, id
         ))
         db.commit()
-        return redirect(url_for("releve.afficher_modifier", mois=mois))
+        return redirect(retour)
     return render_template('releves/modifier.html', releve = releve , mois=mois)
 
 def get_releve(Id):
@@ -229,9 +291,13 @@ def calculer(mois):
 
     non_valide = []
 
-    releves = get_db().execute(
-            'SELECT * FROM releves WHERE mois = ? and annee = ?',
-            (mois_num, annee,)).fetchall()
+    id = request.args.get('id', '')
+    if id:
+        releves = [get_releve(id)]
+    else:
+        releves = get_db().execute(
+                'SELECT * FROM releves WHERE mois = ? and annee = ?',
+                (mois_num, annee,)).fetchall()
 
     for releve in releves:
         if releve['statut'] == 'non valide' :
@@ -261,6 +327,7 @@ def calculer(mois):
 
 
             date_facture = datetime.today().strftime('%d %B %Y').upper()
+            date_facture = date_facture.encode('utf-8').decode('utf-8')
 
             contrat = get_db().execute(
                 'SELECT * FROM contrats WHERE Nr_contrat = ?',
@@ -416,7 +483,7 @@ def calculer(mois):
             
             factures_html.append(rendered)
 
-    factures_html.append(render_template('releves/non_valide.html', mois=mois, non_valide=non_valide))
+    if non_valide: factures_html.append(render_template('releves/non_valide.html', mois=mois, non_valide=non_valide))
     
     html_complet = '<div style="page-break-after: always;"></div>'.join(factures_html)
 
@@ -435,29 +502,3 @@ def calculer(mois):
     response.headers['Content-Disposition'] = 'inline; filename=facture.pdf'
     
     return response
-
-@br.route('/rechercher', methods=['GET'])
-def rechercher():
-    query = request.args.get('q', '')  # Récupère le terme de recherche
-    
-    db = get_db()
-    
-    # Requête SQL avec LIKE pour une recherche partielle
-    # On cherche dans tous les champs pertinents
-    releves = db.execute('''
-        SELECT r.*,c.nom_abonne FROM releves r 
-        JOIN contrats c ON c.Nr_contrat = r.Nr_contrat
-        WHERE r.id LIKE ? 
-           OR  r.statut LIKE ? 
-           OR CAST(r.Nr_contrat AS TEXT) LIKE ?
-        ORDER BY r.annee DESC, r.mois DESC
-    ''', (query, query, query)).fetchall()
-    
-    return render_template('releves/afficher.html', releves=releves, query=query)
-
-   
-
-
-
-
-
