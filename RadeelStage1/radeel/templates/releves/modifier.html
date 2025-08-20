@@ -2,7 +2,6 @@
 
 {% block header %}
     <h1>Modifier relevé {{ releve.id }} du client {{ releve.nom_abonne }} mois {{ mois }}</h1>
-    <a href="{{ url_for('releve.afficher', mois=mois) }}" class="btn btn-success">Retour </a>
 {% endblock %}
 {% block content %}
     <form style="text-align: center;" method="post">
@@ -42,6 +41,6 @@
         <label>Red HP <input type="number" name="Red_HP" value="{{ releve.Red_EA_HP or '0' }}" ></label><br>
         </div>
 
-        <button type="submit">Enregistrer</button>
+        <button type="submit" >Enregistrer</button>
     </form>
 {% endblock %}

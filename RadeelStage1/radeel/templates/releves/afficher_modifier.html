@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>relevés du mois {{ mois }}</h1>
-    {% if not releves %}
+    <h1>Relevés du mois {{ mois }} {% if stat == 'non valide' and not releves %} ( Relevés non crées (Clique sur retour) ){% endif %}</h1>
+    {% if not releves and stat != 'non valide' %}
         <a href="{{ url_for('releve.creer',mois = mois) }}" class="btn btn-success">+ Creer</a>
+    {% elif releves %}
+        <a href="{{ url_for('releve.calculer', mois = mois) }}" class="btn btn-success">Génerer toutes les factures</a>
     {% endif %}
-  <a href="{{ url_for('releve.index') }}" class="btn btn-success">Retour</a>
+    <a href="{{ url_for('releve.index') }}" class="btn btn-success">Retour</a>
+    
 {% endblock %}
 {% block content %}
     <form method="post">
-      <button type="submit" class="btn btn-success">Enregistrer</button>
-        <table class="table-releves" >
+      <div style="text-align: right; margin-bottom: 10px;">
+        <button type="submit" class="btn btn-success" style="font-family: inherit; font-size: 18px; padding: 12px 20px; font-weight: bold;">Enregistrer</button>
+      </div style="overflow-x:auto;">
+        <table class="table-releves"  style="width:100%; table-layout: fixed;">
             <thead>
                 <tr>
                     <th>Nr contrat</th>
@@ -51,6 +56,10 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <div style="text-align: center; margin-bottom: 10px;">
+            <button type="submit" class="btn btn-success" style="font-family: inherit; font-size: 18px; padding: 12px 20px; font-weight: bold;">Enregistrer</button>
+        </div>
     </form>
 {% endblock %}
 
