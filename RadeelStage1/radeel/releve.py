@@ -84,7 +84,7 @@ def afficher_modifier(mois):
             Indic_max = request.form.get(f"Ind_Max_{id}")
 
             if indice_ER == '' or indice_HC == '' or indice_HN == '' or indice_HP == '' or Indic_max == '':
-                statut = 'non valide'
+                statut = 'invalide'
             else:
                 statut = 'valide'
             db.execute("""
@@ -217,6 +217,26 @@ def format_file_url(path):
     file_url = f"file:///{encoded_path}"
     
     return file_url
+
+@br.route('/rechercher', methods=['GET'])
+def rechercher():
+    query = request.args.get('q', '')  # Récupère le terme de recherche
+    
+    db = get_db()
+    
+    # Requête SQL avec LIKE pour une recherche partielle
+    # On cherche dans tous les champs pertinents
+    releves = db.execute('''
+        SELECT r.*,c.nom_abonne FROM releves r 
+        JOIN contrats c ON c.Nr_contrat = r.Nr_contrat
+        WHERE r.id LIKE ? 
+           OR  r.statut LIKE ? 
+           OR CAST(r.Nr_contrat AS TEXT) LIKE ?
+        ORDER BY r.annee DESC, r.mois DESC
+    ''', (query, query, query)).fetchall()
+    
+    return render_template('releves/afficher.html', releves=releves, query=query)
+
 
 @br.route('/<id>/calculer')
 def calculer(id):
@@ -418,26 +438,8 @@ def calculer(id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'inline; filename=facture.pdf'
     
-    return response()
+    return response
 
-@br.route('/rechercher', methods=['GET'])
-def rechercher():
-    query = request.args.get('q', '')  # Récupère le terme de recherche
-    
-    db = get_db()
-    
-    # Requête SQL avec LIKE pour une recherche partielle
-    # On cherche dans tous les champs pertinents
-    releves = db.execute('''
-        SELECT r.*,c.nom_abonne FROM releves r 
-        JOIN contrats c ON c.Nr_contrat = r.Nr_contrat
-        WHERE r.id LIKE ? 
-           OR  r.statut LIKE ? 
-           OR CAST(r.Nr_contrat AS TEXT) LIKE ?
-        ORDER BY r.annee DESC, r.mois DESC
-    ''', (query, query, query)).fetchall()
-    
-    return render_template('releves/afficher.html', releves=releves, query=query)
 
    
 

@@ -6,16 +6,41 @@
 {% endblock %}
 {% block content %}
     <form style="text-align: center;" method="post">
-        <label>Indice ER : <input type="number" name="indice_ER" value="{{ releve.IER or '' }}" ></label><br>
-        <label>Indice HC : <input type="number" name="indice_HC" value="{{ releve.IEA_HC or '' }}" ></label><br>
-        <label>Indice HN : <input type="number" name="indice_HN" value="{{ releve.IEA_HN or '' }}" ></label><br>
-        <label>Indice HP : <input type="number" name="indice_HP" value="{{ releve.IEA_HP or '' }}" ></label><br>
-        <label>Ind Max : <input type="number" name="Indic_max" value="{{ releve.IMax or '' }}"></label><br>
-        <label>Red ER : <input type="number" name="Red_ER" value="{{ releve.Red_ER or '0' }}" ></label><br>
-        <label>Red HC : <input type="number" name="Red_HC" value="{{ releve.Red_EA_HC or '0' }}" ></label><br>
-        <label>Red HN : <input type="number" name="Red_HN" value="{{ releve.Red_EA_HN or '0' }}" ></label><br>
-        <label>Red HP : <input type="number" name="Red_HP" value="{{ releve.Red_EA_HP or '0' }}" ></label><br>
-        
+        <div class="form-group">
+        <label>Indice ER <input type="number" name="indice_ER" value="{{ releve.IER or '' }}" ></label><br>
+        </div>
+
+        <div class="form-group">
+        <label>Indice HC <input type="number" name="indice_HC" value="{{ releve.IEA_HC or '' }}" ></label><br>
+        </div>
+
+        <div class="form-group">
+        <label>Indice HN <input type="number" name="indice_HN" value="{{ releve.IEA_HN or '' }}" ></label><br>
+        </div>
+
+        <div class="form-group">
+        <label>Indice HP <input type="number" name="indice_HP" value="{{ releve.IEA_HP or '' }}" ></label><br>
+        </div>
+
+        <div class="form-group">
+        <label>Ind Max <input type="number" name="Indic_max" value="{{ releve.IMax or '' }}"></label><br>
+        </div>
+
+        <div class="form-group">
+        <label>Red ER <input type="number" name="Red_ER" value="{{ releve.Red_ER or '0' }}" ></label><br>
+        </div>
+
+        <div class="form-group">
+        <label>Red HC <input type="number" name="Red_HC" value="{{ releve.Red_EA_HC or '0' }}" ></label><br>
+        </div>
+
+        <div class="form-group">
+        <label>Red HN <input type="number" name="Red_HN" value="{{ releve.Red_EA_HN or '0' }}" ></label><br>
+        </div>
+
+        <div class="form-group">
+        <label>Red HP <input type="number" name="Red_HP" value="{{ releve.Red_EA_HP or '0' }}" ></label><br>
+        </div>
 
         <button type="submit">Enregistrer</button>
     </form>

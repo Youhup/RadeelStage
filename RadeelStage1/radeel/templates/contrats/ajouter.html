@@ -6,22 +6,45 @@
 
 {% block content %}
   <form method="post">
+    <div class="form-group">
     <label for="Nr_contrat">Nr_contrat</label>
     <input name="Nr_contrat" id="Nr_contrat" value="{{ request.form['Nr_contrat'] }}" required>
+    </div>
+
+    <div class="form-group">
     <label for="nom_abonne">Nom Abonné</label>
     <input name="nom_abonne" id="nom_abonne" value="{{ request.form['nom_abonne'] }}" required>
+    </div>
+
+    <div class="form-group">
     <label for="Adresse">Adresse</label>
     <input name="Adresse" id="Adresse" value="{{ request.form['Adresse'] }}" required>
+    </div>
+
+    <div class="form-group">
     <label for="date_contrat">Date Contrat</label>
     <input type="date" name="date_contrat" id="date_contrat" value="{{ request.form['date_contrat'] }}" required>
+    </div>
+
+    <div class="form-group">
     <label for="Secteur">Secteur</label>
     <input name="Secteur" id="Secteur" type = "number" value="{{ request.form['Secteur'] }}" required>
+    </div>
+
+    <div class="form-group">
     <label for="Puissance_souscrite">Puissance Souscrite (kW)</label>
     <input name="Puissance_souscrite" id ="Puissance_souscrite" type = "number" value="{{ request.form['Puissance_souscrite'] }}" required>
+    </div>
+
+    <div class="form-group">
     <label for="Puissance_installee">Puissance Installée (kW)</label>
     <input name="Puissance_installee" id="Puissance_installee" type = "number" value="{{ request.form['Puissance_installee'] }}" required>
+    </div>
+
+    <div class="form-group">
     <label for="type_installation">Type Installation</label>
     <input name="type_installation" id="type_installation" type = "number" value="{{ request.form['type_installation'] }}" required>
+    </div>
 
     <input type="submit" value="Save">
   </form>
