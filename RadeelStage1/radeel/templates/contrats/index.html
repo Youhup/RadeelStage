@@ -4,6 +4,11 @@
 
 {% block header %}
   <h1>Liste des contrats</h1>
+  <form action="{{ url_for('contrat.rechercher') }}" method="get">
+      <input type="text" name="q" placeholder="Rechercher par Nr_contrat, nom ,date ..." 
+        value="{{ request.args.get('q', '') }}">
+      <button type="submit" class="btn btn-success">Rechercher</button>
+  </form>
   <a href="{{ url_for('contrat.contrat_ajouter') }}" class="btn btn-success">+ Ajouter</a>
 {% endblock %}
 

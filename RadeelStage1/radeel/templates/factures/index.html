@@ -2,6 +2,11 @@
 
 {% block header %}
   <h1>Liste des factures</h1>
+  <form action="{{ url_for('facture.rechercher') }}" method="get">
+      <input type="text" name="q" placeholder="Rechercher par Nr_contrat, annee , statut ..." 
+        value="{{ request.args.get('q', '') }}">
+      <button type="submit" class="btn btn-success">Rechercher</button>
+  </form>
 {% endblock %}
 
 

@@ -28,7 +28,7 @@ CREATE TABLE releves (
     RED_EA_HN INTEGER DEFAULT 0,--Redressement d'energie active en heures normales
     RED_EA_HP INTEGER DEFAULT 0 ,--Redressement d'energie active en heures pleines
     IMAX INTEGER CHECK(IMAX >= 0),--Indicateur de maximum KW
-    statut TEXT DEFAULT 'non valide' CHECK(statut IN ('valide', 'non valide')),
+    statut TEXT DEFAULT 'invalide' CHECK(statut IN ('valide', 'invalide')),
     FOREIGN KEY (Nr_contrat) REFERENCES contrats(Nr_contrat) ON DELETE CASCADE
     --UNIQUE(Nr_contrat, mois, annee) -- Assure qu'il n'y a qu'un relevé par mois et par contrat
 );

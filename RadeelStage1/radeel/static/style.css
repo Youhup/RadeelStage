@@ -608,3 +608,20 @@ input[type="month"]:focus {
 }
 
 
+.statut {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            display: inline-block;
+            min-width: 80px;
+        }
+        
+        .statut-valide {
+            background-color: #28a745; /* Vert Bootstrap */
+        }
+        
+        .statut-invalide {
+            background-color: #dc3545; /* Rouge Bootstrap */
+        }

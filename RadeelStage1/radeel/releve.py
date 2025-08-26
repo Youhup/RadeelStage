@@ -89,7 +89,7 @@ def afficher_modifier(mois):
             Indic_max = request.form.get(f"Ind_Max_{id}")
 
             if indice_ER == '' or indice_HC == '' or indice_HN == '' or indice_HP == '' or Indic_max == '':
-                statut = 'non valide'
+                statut = 'invalide'
             else:
                 statut = 'valide'
             db.execute("""
@@ -239,7 +239,7 @@ def modifier(id):
         Indic_max = request.form.get("Indic_max")
 
         if indice_ER == '' or indice_HC == '' or indice_HN == '' or indice_HP == '' or Indic_max == '':
-            statut = 'non valide'
+            statut = 'invalide'
         else:
             statut = 'valide'
 
@@ -300,7 +300,7 @@ def calculer(mois):
                 (mois_num, annee,)).fetchall()
 
     for releve in releves:
-        if releve['statut'] == 'non valide' :
+        if releve['statut'] == 'invalide' :
             client = get_db().execute(
                 'SELECT nom_abonne FROM contrats WHERE Nr_contrat = ?',
                 (releve['Nr_contrat'],)).fetchone()
@@ -342,10 +342,12 @@ def calculer(mois):
                     'SELECT * FROM releves WHERE annee = ? and Nr_contrat = ? and mois = 12',
                     (releve['annee'] - 1, releve['Nr_contrat'],)).fetchone()
                 
-            if old_releve :
+            if old_releve is not None:
                 old_facture = get_db().execute(
                     'SELECT * FROM factures WHERE id = ?',
                     (old_releve['Id'],)).fetchone()
+            else :
+                old_facture = None
             
             
             # Calcul d'energie decomptée
@@ -447,7 +449,7 @@ def calculer(mois):
             
             # Calcul du cumul annuel
             
-            if old_facture :
+            if old_facture is not None:
                 cumul_EA_annuel = old_facture['cumul_EA_annuel'] + Tot_EA
             else:   
                 cumul_EA_annuel = Tot_EA

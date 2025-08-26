@@ -130,3 +130,23 @@ def contrat_supprimer(Nr_contrat):
     db.execute('DELETE FROM contrats WHERE Nr_contrat = ?', (Nr_contrat,))
     db.commit()
     return redirect(url_for('contrat.contrat_index'))
+
+@bc.route('/rechercher', methods=['GET'])
+def rechercher():
+    query = request.args.get('q', '')  # Récupère le terme de recherche
+    
+    db = get_db()
+    
+    # Requête SQL avec LIKE pour une recherche partielle
+    # On cherche dans tous les champs pertinents
+    contrats = db.execute('''
+        SELECT * from contrats 
+        WHERE Nr_contrat LIKE ? OR 
+              nom_abonne LIKE ? OR 
+              Adresse LIKE ? OR 
+              date_contrat LIKE ? OR 
+              Secteur LIKE ? OR 
+              statut LIKE ? 
+    ''', (query, query, query,query,query,query)).fetchall()
+    
+    return render_template('contrats/index.html', contrats = contrats, query=query)

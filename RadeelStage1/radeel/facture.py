@@ -22,5 +22,23 @@ def index():
     ).fetchall()
     return render_template('factures/index.html', factures= factures )
 
+@bf.route('/rechercher', methods=['GET'])
+def rechercher():
+    query = request.args.get('q', '')  # Récupère le terme de recherche
+    
+    db = get_db()
+    
+    # Requête SQL avec LIKE pour une recherche partielle
+    # On cherche dans tous les champs pertinents
+    factures = db.execute('''
+        SELECT * from releves 
+        WHERE Nr_contrat LIKE ? OR 
+              mois LIKE ? OR 
+              annee LIKE ? OR 
+              statut LIKE ?
+    ''', (query, query, query,query,)).fetchall()
+    
+    return render_template('factures/index.html', factures = factures, query=query)
+
 
     

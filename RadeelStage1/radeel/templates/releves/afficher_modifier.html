@@ -38,7 +38,11 @@
                     <input type="hidden" name="id" value="{{ r.id }}">
                     <td>{{ r.Nr_contrat }}</td>
                     <td>{{ r.nom_abonne}}</td>
-                    <td>{{ r.statut }}</td>
+                    <td>
+                        <span class="statut statut-{{ r.statut|lower }}">
+                            {{ r.statut }}
+                        </span>
+                    </td>
                     <td><input type="number" min = 0 name="indice_ER_{{ r.id }}" value="{{ r.IER or '' }}"></td>
                     <td><input type="number" min = 0 name="indice_HC_{{ r.id }}" value="{{ r.IEA_HC or '' }}"></td>
                     <td><input type="number" min = 0 name="indice_HN_{{ r.id }}" value="{{ r.IEA_HN or '' }}"></td>
