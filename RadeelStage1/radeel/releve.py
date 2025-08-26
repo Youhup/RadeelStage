@@ -341,6 +341,11 @@ def calculer(mois):
                 old_releve = get_db().execute(
                     'SELECT * FROM releves WHERE annee = ? and Nr_contrat = ? and mois = 12',
                     (releve['annee'] - 1, releve['Nr_contrat'],)).fetchone()
+                
+            if old_releve :
+                old_facture = get_db().execute(
+                    'SELECT * FROM factures WHERE id = ?',
+                    (old_releve['Id'],)).fetchone()
             
             
             # Calcul d'energie decomptée
@@ -440,10 +445,18 @@ def calculer(mois):
                             taxe_entretien + taxe_location +
                             tva_cons_18 + tva_taxes_15 + tva_taxes_20),2)
             
+            # Calcul du cumul annuel
+            
+            if old_facture :
+                cumul_EA_annuel = old_facture['cumul_EA_annuel'] + Tot_EA
+            else:   
+                cumul_EA_annuel = Tot_EA
+            
             facture = {'ERD':ERD , 'EAD_HC' : EAD_HC, 'EAD_HN' : EAD_HN ,'EAD_HP': EAD_HP,
                     'Perte_ER': Perte_ER,'Perte_HC':Perte_HC,'Perte_HN':Perte_HN,'Perte_HP':Perte_HP,
                     'CER':CER,'CHC':CEA_HC,'CHN':CEA_HN,'CHP':CEA_HP,
-                    'total_EA':Tot_EA,'cos_phi':cos_phi,'ecart_cos_phi':ecart_cos_phi,
+                    'total_EA':Tot_EA,'cumul_annuel':cumul_EA_annuel,
+                    'cos_phi':cos_phi,'ecart_cos_phi':ecart_cos_phi,
                     'puiss_appele':Puiss_appelee ,
                     'montant_HC':Montant_HC,'montant_HN':Montant_HN,'montant_HP':Montant_HP,
                     'Rend_puiss_cal':redevance_puiss_cal,'Rend_puis':Redevance_puiss,
@@ -458,18 +471,18 @@ def calculer(mois):
             
                 db.execute(
                     'INSERT INTO factures (id,Nr_contrat, Net_apayer,cumul_EA_annuel) VALUES (?, ?, ?,?)',
-                    (releve['id'],contrat['Nr_contrat'], facture['Net_apayer'],facture['total_EA'])
+                    (releve['id'],contrat['Nr_contrat'], facture['Net_apayer'],cumul_EA_annuel)
                 )
                         
                 db.commit()
             except db.IntegrityError:
-                error = f"facture {releve['Id']} existe."
-                flash(error)
-            else:
-                flash('facture ajoute avec succes')
+                db.execute(
+                    'UPDATE factures set Nr_contrat =? , Net_apayer = ?,cumul_EA_annuel= ? where id = ?',
+                    (contrat['Nr_contrat'], facture['Net_apayer'],cumul_EA_annuel,releve['id'],)
+                )
                 
             #path vers l'image
-            chemin_relatif = "static/images/target001.jpg"
+            chemin_relatif = "radeel/static/images/target001.jpg"
             url_facture = format_file_url(chemin_relatif)
 
 
