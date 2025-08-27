@@ -10,9 +10,11 @@
 <body>
     <nav class="navbar">
         <div class="navbar-container">
-            <a href="{{ url_for('releve.index') }}" class="logo-link" style="text-decoration:none">
-                <h1 class="logo">Radeel</h1>
-            </a>
+            <div class="logo">
+                <a href="{{ url_for('releve.index') }}">
+                    <img src="/static/images/logoRadeel.png" alt="Radeel" height="45" >
+                </a>
+            </div>
             <ul class="nav-links">
                 {% if session.get('authenticated') %}
                     <li class="user-info">

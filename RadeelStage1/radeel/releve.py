@@ -359,10 +359,10 @@ def calculer(mois):
                 return new_value - old_value
 
             #ED = energie  decomptée
-            ERD = calcul_ED(old_releve['IER'] if old_releve else None, releve['IER'])
-            EAD_HC = calcul_ED(old_releve['IEA_HC'] if old_releve else None, releve['IEA_HC']) 
-            EAD_HN = calcul_ED(old_releve['IEA_HN'] if old_releve else None, releve['IEA_HN'])
-            EAD_HP = calcul_ED(old_releve['IEA_HP'] if old_releve else None, releve['IEA_HP'])
+            ERD = calcul_ED(old_releve['IER'] if (old_releve and old_releve['statut']=='valide') else None, releve['IER'])
+            EAD_HC = calcul_ED(old_releve['IEA_HC'] if (old_releve and old_releve['statut']=='valide') else None, releve['IEA_HC']) 
+            EAD_HN = calcul_ED(old_releve['IEA_HN'] if (old_releve and old_releve['statut']=='valide') else None, releve['IEA_HN'])
+            EAD_HP = calcul_ED(old_releve['IEA_HP'] if (old_releve and old_releve['statut']=='valide') else None, releve['IEA_HP'])
             
             #Calcul des pertes
             def perte_ED_Red(ED, Red):

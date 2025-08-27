@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>Relevés du mois {{ mois }} {% if stat == 'non valide' and not releves %} ( Relevés non crées (Clique sur retour) ){% endif %}</h1>
-    {% if not releves and stat != 'non valide' %}
+    <h1>Relevés du mois {{ mois }} {% if stat == 'invalide' and not releves %} ( Relevés non crées (Clique sur retour) ){% endif %}</h1>
+    {% if not releves and stat != 'invalide' %}
         <a href="{{ url_for('releve.creer',mois = mois) }}" class="btn btn-success">+ Creer</a>
     {% elif releves %}
         <a href="{{ url_for('releve.calculer', mois = mois) }}" class="btn btn-success">Génerer toutes les factures</a>
@@ -56,10 +56,6 @@
                 {% endfor %}
             </tbody>
         </table>
-
-        <div style="text-align: center; margin-bottom: 10px;">
-            <button type="submit" class="btn btn-success" style="font-family: inherit; font-size: 18px; padding: 12px 20px; font-weight: bold;">Enregistrer</button>
-        </div>
     </form>
 {% endblock %}
 
